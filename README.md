@@ -1,9 +1,9 @@
 FORMAGIC README
 ===============
 
-Thank you for downloading Formagic.
+Thank you for your interest in Formagic.
 The source files within are subject to the new BSD license that is bundled
-with this package in the file LICENSE.txt.
+with this package in the file LICENSE.
 
 This is a beta release of Formagic. Please check http://formagic.sourceforge.net
 for updates of Formagic. There will be a final release as soon as all intended

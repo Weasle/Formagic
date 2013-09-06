@@ -52,7 +52,7 @@ http://www.formagic-php.net/docs/api/
 
 FORMAGIC LINKS
 --------------
-You will find the official Formagic project site here:
+You will find the official Formagic project site and documentation here:
 http://www.formagic-php.net
 
 Formagic Sourceforge page:

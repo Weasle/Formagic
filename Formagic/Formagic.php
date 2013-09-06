@@ -68,7 +68,7 @@ require_once 'Exception/Exception.php';
  * @package     Formagic
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2007-2012 Florian Sonnenburg
- * @version     $Id: Formagic.php 175 2012-05-16 13:22:14Z meweasle $, $Revision: 70 $
+ * @version     $Id: Formagic.php 183 2012-11-17 13:34:27Z meweasle $, $Revision: 70 $
  **/
 class Formagic
 {
@@ -93,7 +93,7 @@ class Formagic
     /**
      * Type of renderer used to display form
      * @see Formagic::setRenderer()
-     * @var Formagic_Renderer
+     * @var Formagic_Renderer_Interface
      */
     private $_renderer;
 
@@ -228,6 +228,8 @@ class Formagic
      *
      * @param string $method Method name string.
      * @param array $args Array of method parameters.
+     *
+     * @throws Formagic_Exception if method does not exist in item holder.
      * @return mixed The container method result.
      */
     public function __call($method, $args)
@@ -244,7 +246,6 @@ class Formagic
      *
      * @param string $itemName Name of requested member.
      * @return Formagic_Item_Abstract Item object
-     * @throws Formagic_Exception
      */
     public function __get($itemName)
     {
@@ -256,8 +257,9 @@ class Formagic
      *
      * @param string $key  Member name
      * @param mixed $value Member value
+     *
+     * @throws Formagic_Exception Not implemented
      * @return void
-     * @throws Formagic_Exception
      */
     public function __set($key, $value)
     {
@@ -268,6 +270,7 @@ class Formagic
      * Sets Formagic options.
      *
      * @param array $options Array of Formagic options
+     *
      * @throws Formagic_Exception If an option is not supported.
      * @return void
      */
@@ -318,7 +321,7 @@ class Formagic
                         foreach($value as $filter => $args) {
                             if (is_numeric($filter)) {
                                 $filter = $args;
-                                $args = null;
+                                $args = array();
                             }
                             $this->_itemHolder->addFilter($filter, $args);
                         }
@@ -326,7 +329,7 @@ class Formagic
                     break;
                 default:
                     throw new Formagic_Exception("Option $value not supported");
-            } // switch
+            }
         }
     }
 
@@ -359,6 +362,8 @@ class Formagic
      *
      * @param string|Formagic_Renderer_Interface $renderer Formagic_Renderer
      *      object or string with name of renderer class
+     *
+     * @throws Formagic_Exception
      * @return Formagic Fluent interface
      */
     public function setRenderer($renderer)
@@ -399,7 +404,7 @@ class Formagic
      * Sets form name and thus name of trackSubmission item.
      *
      * @param string $name
-     * @return Fluent interface
+     * @return Formagic Fluent interface
      */
     private function _setName($name)
     {
@@ -415,6 +420,8 @@ class Formagic
      * Sets the form's submit method.
      *
      * @param string $method The new form submit method
+     *
+     * @throws Formagic_Exception
      * @return Formagic Fluent interface
      */
     public function setMethod($method)
@@ -518,7 +525,7 @@ class Formagic
      */
     public function getInfo()
     {
-        $numItems = $this->count();
+        $numItems = $this->getItemHolder()->count();
         $submitted = (int)$this->isSubmitted();
         $str = "<strong>Formagic Info</strong><br />\n"
                . "Items added: '$numItems'<br />\n"
@@ -531,14 +538,14 @@ class Formagic
      * Creates and returns FormagicItem object
      *
      * Tries to load correct object class and creates new object. Returns object
-     * if successfull, false if not.
+     * if successful, false if not.
      *
      * @param string $type Item type string
      * @param string $name Item name
      * @param array $args Item options array
      * @return Formagic_Item_Abstract New item instance
      */
-    public static function createItem($type, $name, $args=null)
+    public static function createItem($type, $name, array $args = array())
     {
         $class = 'Formagic_Item_' . ucFirst($type);
         self::loadClass($class);
@@ -560,6 +567,8 @@ class Formagic
      * Sets the form action URL.
      *
      * @param string $value Form action URL
+     *
+     * @throws Formagic_Exception if value is no string
      * @return Formagic Fluent interface
      */
     public function setFormAction($value)
@@ -729,7 +738,7 @@ class Formagic
         if (!isset($chunks[2])) {
             $chunks[2] = $chunks[1];
         }
-        $dir = dirname(__FILE__);
+
         $relative = DIRECTORY_SEPARATOR . $chunks[1] . DIRECTORY_SEPARATOR
             . $chunks[2] . '.php';
 
@@ -737,14 +746,14 @@ class Formagic
         $dir = dirname(__FILE__);
         $file = $dir.$relative;
         if (file_exists($file)) {
-            include($file);
+            include $file;
             return;
         }
 
         foreach (self::$_baseDirs as $dir) {
             $file = $dir . $relative;
             if (file_exists($file)) {
-                include($file);
+                include $file;
                 return;
             }
         }

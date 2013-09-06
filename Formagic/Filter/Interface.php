@@ -25,15 +25,15 @@
  * @category    Formagic
  * @package     Filter
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2009 Florian Sonnenburg
- * @version     $Id: Interface.php 173 2012-05-16 13:19:22Z meweasle $
+ * @copyright   Copyright (c) 2007-2012 Florian Sonnenburg
+ * @version     $Id: Interface.php 181 2012-11-02 20:31:51Z meweasle $
  **/
 interface Formagic_Filter_Interface
 {
     /**
      * Filter implementation.
      *
-     * @param $value The value to be filtered.
+     * @param string $value The value to be filtered.
      * @return mixed The filtered value.
      */
     public function filter($value);

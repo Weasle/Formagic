@@ -19,6 +19,8 @@
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
+require_once 'Interface.php';
+
 /**
  * Formagic translator class
  *
@@ -31,9 +33,9 @@
  * @package     Translator
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2010 Florian Sonnenburg
- * @version     $Id: Translator.php 173 2012-05-16 13:19:22Z meweasle $
+ * @version     $Id: Translator.php 181 2012-11-02 20:31:51Z meweasle $
  */
-class Formagic_Translator
+class Formagic_Translator implements Formagic_Translator_Interface
 {
     /**
      * Callback array containing the translation class and method
@@ -45,8 +47,6 @@ class Formagic_Translator
      * Constructor
      *
      * Empty by default, allows subclass initialization.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -65,12 +65,9 @@ class Formagic_Translator
     }
 
     /**
-     * Translates a string or returns it if no translator is set.
-     *
-     * @param string $string The string to be translated
-     * @return string The translated string
+     * {@inheritDoc}
      */
-    public function _($string)
+    public function _($string, array $arguments = array())
     {
         if (!$this->_callback) {
             return $string;

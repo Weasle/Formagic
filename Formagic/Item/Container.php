@@ -35,7 +35,7 @@
  * @package     Item
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2011 Florian Sonnenburg
- * @version     $Id: Container.php 173 2012-05-16 13:19:22Z meweasle $
+ * @version     $Id: Container.php 183 2012-11-17 13:34:27Z meweasle $
  */
 class Formagic_Item_Container extends Formagic_Item_Abstract implements IteratorAggregate, Countable
 {
@@ -141,7 +141,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
      * altered by setting $throwException to FALSE; the result value will be
      * NULL then.
      *
-     * @throws Formagic_Exception
+     * @throws Formagic_Exception if no item found with given name
      * @param string $name Item identifier string.
      * @param boolean $throwException Returns NULL if set to FALSE.
      * @return Formagic_Item_Abstract Returns the Formagic item identified by
@@ -255,7 +255,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
      * @throws Formagic_Exception if $filter argument is invalid
      * @return Formagic_Item_Container This object
      */
-    public function addFilter($filter, array $args=null)
+    public function addFilter($filter, array $args = array())
     {
         parent::addFilter($filter, $args);
         foreach ($this->_items as $item) {

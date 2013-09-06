@@ -15,9 +15,11 @@
  * @category    Formagic
  * @package     Rule
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2009 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2012 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
+
+require_once 'Interface.php';
 
 /**
  * FormagicRule abstract superclass
@@ -25,10 +27,10 @@
  * @category    Formagic
  * @package     Rule
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2009 Florian Sonnenburg
- * @version     $Id: Abstract.php 173 2012-05-16 13:19:22Z meweasle $
+ * @copyright   Copyright (c) 2007-2012 Florian Sonnenburg
+ * @version     $Id: Abstract.php 180 2012-10-21 20:16:59Z meweasle $
  **/
-abstract class Formagic_Rule_Abstract
+abstract class Formagic_Rule_Abstract implements Formagic_Rule_Interface
 {
     /**
      * Message string
@@ -74,13 +76,13 @@ abstract class Formagic_Rule_Abstract
      * Sets the error message property.
      *
      * Usually a rule will have one error message string that is used if the
-     * validation fails. If neccessary, Formagic_Rule_Abstract::_errorMessage
+     * validation fails. If necessary, Formagic_Rule_Abstract::_errorMessage
      * can hold other variables, eg. an array of error messages for different
      * outcomes of the validation process.
      *
      * Implements a fluent interface pattern.
      *
-     * @param mixed $message The error message value.
+     * @param string $message The error message value.
      * @see Formagic_Rule_Abstract::__construct()
      * @return Formagic_Rule_Abstract $this object.
      */

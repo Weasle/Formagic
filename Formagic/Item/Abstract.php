@@ -19,6 +19,8 @@
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
+require_once 'Interface.php';
+
 /**
  * Abstract superclass for Formagic items
  *
@@ -26,9 +28,9 @@
  * @package     Item
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
- * @version     $Id: Abstract.php 173 2012-05-16 13:19:22Z meweasle $
+ * @version     $Id: Abstract.php 180 2012-10-21 20:16:59Z meweasle $
  **/
-abstract class Formagic_Item_Abstract
+abstract class Formagic_Item_Abstract implements Formagic_Item_Interface
 {
     /**
      * Filtered item value cache
@@ -38,7 +40,7 @@ abstract class Formagic_Item_Abstract
 
     /**
      * Violated rule after validation
-     * @var Form_Rule_Abstract
+     * @var Formagic_Rule_Abstract
      */
     private $_violatedRules = array();
 
@@ -119,69 +121,65 @@ abstract class Formagic_Item_Abstract
      *
      * @param string $name Name of item
      * @param array $arguments Additional arguments
-     * @throws Formagic_Exception
-     * @return void
      **/
-    public function __construct($name, $arguments=null)
+    public function __construct($name, array $arguments = array())
     {
         $this->_name = $name;
 
         $additionalArgs = array();
-        if (is_array($arguments)) {
-            foreach($arguments as $key => $arg) {
-                switch($key) {
-                    case 'ignore':
-                        $this->_isIgnored = $arg;
-                        break;
-                    case 'disable':
-                        $this->_isDisabled = $arg;
-                        break;
-                    case 'label':
-                        $this->_label = $arg;
-                        break;
-                    case 'value':
-                        $this->_value = $arg;
-                        break;
-                    case 'attributes':
-                        $this->setAttributes($arg);
-                        break;
-                    case 'hidden':
-                        $this->_isHidden = $arg;
-                        break;
-                    case 'readonly':
-                        $this->_isReadonly = $arg;
-                        break;
-                    case 'fixed':
-                        $this->setFixed($arg);
-                        break;
-                    case 'rules':
-                        if (!is_array($arg)) {
-                            $this->addRule($arg);
-                        } else {
-                            foreach($arg as $rule) {
-                                $this->addRule($rule);
-                            }
+        foreach($arguments as $key => $arg) {
+            switch($key) {
+                case 'ignore':
+                    $this->_isIgnored = $arg;
+                    break;
+                case 'disable':
+                    $this->_isDisabled = $arg;
+                    break;
+                case 'label':
+                    $this->_label = $arg;
+                    break;
+                case 'value':
+                    $this->_value = $arg;
+                    break;
+                case 'attributes':
+                    $this->setAttributes($arg);
+                    break;
+                case 'hidden':
+                    $this->_isHidden = $arg;
+                    break;
+                case 'readonly':
+                    $this->_isReadonly = $arg;
+                    break;
+                case 'fixed':
+                    $this->setFixed($arg);
+                    break;
+                case 'rules':
+                    if (!is_array($arg)) {
+                        $this->addRule($arg);
+                    } else {
+                        foreach($arg as $rule) {
+                            $this->addRule($rule);
                         }
-                        break;
-                    case 'filters':
-                        if (!is_array($arg)) {
-                            $this->addFilter($arg);
-                        } else {
-                            foreach($arg as $filter => $args) {
-                                if (is_numeric($filter)) {
-                                    $filter = $args;
-                                    $args = null;
-                                }
-                                $this->addFilter($filter, $args);
+                    }
+                    break;
+                case 'filters':
+                    if (!is_array($arg)) {
+                        $this->addFilter($arg);
+                    } else {
+                        foreach($arg as $filter => $args) {
+                            if (is_numeric($filter)) {
+                                $filter = $args;
+                                $args = array();
                             }
+                            $this->addFilter($filter, $args);
                         }
-                        break;
-                    default:
-                        // Argument handler for unknown arguments. Defined in
-                        // item classes
-                        $additionalArgs[$key] = $arg;
-                } // switch
-            }
+                    }
+                    break;
+                default:
+                    // Argument handler for unknown arguments. Defined in
+                    // item classes
+                    $additionalArgs[$key] = $arg;
+            } // switch
         }
         $this->_init($additionalArgs);
     }
@@ -197,7 +195,7 @@ abstract class Formagic_Item_Abstract
     }
 
     /**
-     * Prints item infos.
+     * Prints item information.
      *
      * @return string The item information string
      **/
@@ -274,6 +272,7 @@ abstract class Formagic_Item_Abstract
      *
      * @param Formagic_Filter_Interface $filter Filter object
      * @param mixed $subject Scalar or array
+     * @throws Formagic_Exception If an invalid type is given for $subject
      * @return mixed Filtered scalar or array
      */
     protected function _filterValue(Formagic_Filter_Interface $filter, $subject)
@@ -319,7 +318,7 @@ abstract class Formagic_Item_Abstract
      * Implements a fluent interface pattern.
      *
      * @param mixed $value The new item value.
-     * @return Formagic_Item_Abstract This object.
+     * @return Formagic_Item_Interface Fluent interface
      */
     public function setValue($value)
     {
@@ -336,7 +335,7 @@ abstract class Formagic_Item_Abstract
      * Default required attributes are "id" and "name".
      *
      * @param array $requiredAttributes Numeric array of required attributes.
-     * @return \Formagic_Item_Abstract Fluent interface.
+     * @return Formagic_Item_Interface Fluent interface.
      */
     public function setRequiredAttributes(array $requiredAttributes)
     {
@@ -356,8 +355,8 @@ abstract class Formagic_Item_Abstract
      * Implements a fluent interface pattern.
      *
      * @param array $attArray The new
-     * @see Formagic_Item_Abstract::addAttribute()
-     * @return Formagic_Item_Abstract This object.
+     * @see Formagic_Item_Interface::addAttribute()
+     * @return Formagic_Item_Interface Fluent interface
      */
     public function setAttributes($attArray)
     {
@@ -372,7 +371,7 @@ abstract class Formagic_Item_Abstract
      *
      * @param string $name Attribute name
      * @param string $value Attribute value
-     * @return Formagic_Item_Abstract This object.
+     * @return Formagic_Item_Interface Fluent interface
      */
     public function addAttribute($name, $value)
     {
@@ -383,8 +382,8 @@ abstract class Formagic_Item_Abstract
     /**
      * Returns the attributes array for this item.
      *
-     * @see Formagic_Item_Abstract::setAttributes()
-     * @see Formagic_Item_Abstract::addAttribute()
+     * @see Formagic_Item_Interface::setAttributes()
+     * @see Formagic_Item_Interface::addAttribute()
      * @return array The attributes array.
      */
     public function getAttributes()
@@ -404,8 +403,8 @@ abstract class Formagic_Item_Abstract
      * Returns value of an attribute for this item.
      *
      * @param string $name Name of the attribute value to fetch
-     * @see Formagic_Item_Abstract::setAttributes()
-     * @see Formagic_Item_Abstract::addAttribute()
+     * @see Formagic_Item_Interface::setAttributes()
+     * @see Formagic_Item_Interface::addAttribute()
      * @return string Attribute value
      */
     public function getAttribute($name)
@@ -454,8 +453,8 @@ abstract class Formagic_Item_Abstract
      * // <input type="text" id="item" name="item" class="myclass" onclick="alert('Formagic');" />
      * </code>
      *
-     * @see Formagic_Item_Abstract::setAttributes()
-     * @see Formagic_Item_Abstract::addAttribute()
+     * @see Formagic_Item_Interface::setAttributes()
+     * @see Formagic_Item_Interface::addAttribute()
      * @return string The attributes string.
      */
     public function getAttributeStr()
@@ -497,7 +496,7 @@ abstract class Formagic_Item_Abstract
      * @param mixed $rule Rule type string or Formagic_Rule_Abstract object.
      * @param array $args Optional array of arguments. Will be passed to the rule constructor as array.
      * @throws Formagic_Exception If no valid role object can be identified.
-     * @return Formagic_Item_Abstract This object.
+     * @return Formagic_Item_Interface Fluent interface
      **/
     public function addRule($rule, array $args = array())
     {
@@ -516,25 +515,9 @@ abstract class Formagic_Item_Abstract
     }
 
     /**
-     * Adds filter object to Formagic item
-     *
-     * Formagic items can have multiple filters which will be applied in the
-     * order they are passed to the object.
-     *
-     * First parameter $filter can either be a string or an object of a class
-     * that extends Formagic_Filter_Interface.
-     * A string value is assumed to be the type of filter to be added.
-     *
-     * This method throws an exception if no valid role object can be identified.
-     *
-     * Implements a fluent interface pattern.
-     *
-     * @param mixed $filter Filter type string or Formagic_Filter_Interface object.
-     * @param array $args Optional array of arguments. Will be passed to the filter constructor as array.
-     * @throws Formagic_Exception
-     * @return Formagic_Item_Abstract Fluent interface
+     * {@inheritDoc}
      **/
-    public function addFilter($filter, array $args = null)
+    public function addFilter($filter, array $args = array())
     {
         // argument is assumed rule type if string.
         if (is_string($filter)) {
@@ -618,6 +601,7 @@ abstract class Formagic_Item_Abstract
      *
      * @param Formagic_Rule_Abstract $rule Validation rule object
      * @param string|array $subject Validation subject
+     * @throws Formagic_Exception If subject type is not supported
      * @return boolean Validation result
      */
     protected function _validateItemValue(Formagic_Rule_Abstract $rule, $subject)
@@ -656,7 +640,7 @@ abstract class Formagic_Item_Abstract
      * Implements a fluent interface pattern.
      *
      * @param boolean $flag Readonly status flag.
-     * @return Formagic_Item_Abstract This object.
+     * @return Formagic_Item_Interface Fluent interface
      */
     public function setReadonly($flag)
     {
@@ -670,7 +654,7 @@ abstract class Formagic_Item_Abstract
      * Implements a fluent interface pattern.
      *
      * @param boolean $flag Hidden status flag.
-     * @return Formagic_Item_Abstract This object.
+     * @return Formagic_Item_Interface Fluent interface
      */
     public function setHidden($flag)
     {
@@ -694,7 +678,7 @@ abstract class Formagic_Item_Abstract
      * Implements a fluent interface pattern.
      *
      * @param boolean $flag Ignored status flag.
-     * @return Formagic_Item_Abstract This object.
+     * @return Formagic_Item_Interface Fluent interface
      */
     public function setIgnore($flag)
     {
@@ -718,7 +702,7 @@ abstract class Formagic_Item_Abstract
      * Implements a fluent interface pattern.
      *
      * @param boolean $flag Defined item's disabled status.
-     * @return Formagic_Item_Abstract Fluent interface
+     * @return Formagic_Item_Interface Fluent interface
      */
     public function setDisabled($flag)
     {
@@ -745,7 +729,7 @@ abstract class Formagic_Item_Abstract
      * Implements a fluent interface pattern.
      *
      * @param boolean $flag IsFixed flag value.
-     * @return Formagic_Item_Abstract This object.
+     * @return Formagic_Item_Interface Fluent interface
      */
     public function setFixed($flag)
     {

@@ -1,0 +1,24 @@
+{
+    "name": "formagic/formagic",
+    "type": "library",
+    "description": "Form generator for PHP 5",
+    "keywords": ["forms","generator","html"],
+    "homepage": "http://github.com/Weasle/Formagic",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Florian Sonnenburg",
+            "email": "admin@formagic-php.net",
+            "homepage": "http://www.formagic-php.net",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Formagic": "src"
+        }
+    }
+}

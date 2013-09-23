@@ -30,3 +30,12 @@ Formagic 1.1
 * Switched to PHPDocumentor 2.0
 * Fixed link to license agreement
 * Fixed documentation issues
+
+Formagic 1.5
+============
+* Switched to Github
+* Introduced composer/packagist compatibility
+* Introduced autoloader
+* Removed all require statements
+* Introduced value object for file uploads, allowing to attach common filters and rules without breaking (even those
+  common filters and rules would probably not be very useful for uploaded files)

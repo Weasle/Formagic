@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Test
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2012 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -25,8 +25,7 @@
  * @category    Formagic
  * @package     Tests
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2012
- * @version     $Id: $
+ * @copyright   Copyright (c) 2013
  **/
 class Formagic_Integration_FilterFieldsTest extends PHPUnit_Framework_TestCase
 {

@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Filter
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2009 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -26,7 +26,6 @@
  * @package     Filter
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2009 Florian Sonnenburg
- * @version     $Id: Nl2br.php 173 2012-05-16 13:19:22Z meweasle $
  **/
 class Formagic_Filter_Nl2br implements Formagic_Filter_Interface
 {

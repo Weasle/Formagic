@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Renderer
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -25,8 +25,7 @@
  * @category    Formagic
  * @package     Renderer
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
- * @version     $Id: Html.php 173 2012-05-16 13:19:22Z meweasle $
+ * @copyright   Copyright (c) 2012 Florian Sonnenburg
  **/
 class Formagic_Renderer_Html implements Formagic_Renderer_Interface
 {

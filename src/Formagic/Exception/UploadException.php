@@ -25,8 +25,7 @@
  * @category    Formagic
  * @package     Exception
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2009 Florian Sonnenburg
- * @version     $Id: Exception.php 173 2012-05-16 13:19:22Z meweasle $
+ * @copyright   Copyright (c) 2013 Florian Sonnenburg
  */
 class Formagic_Exception_UploadException extends Formagic_Exception
 {

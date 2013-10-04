@@ -26,8 +26,9 @@
  * @category    Formagic
  * @package     Item\Value
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
- * @version     $Id: Upload.php 173 2012-05-16 13:19:22Z meweasle $
+ * @copyright   Copyright (c) 2013 Florian Sonnenburg
+ *
+ * @codeCoverageIgnore Simple PoPo, not test-worthy
  */
 class Formagic_Item_Value_UploadValue
 {
@@ -53,7 +54,7 @@ class Formagic_Item_Value_UploadValue
      * Upload status
      * @var integer
      */
-    private $uploadErrorStatus;
+    private $uploadStatus;
 
     /**
      * Size in byte of uploaded file
@@ -73,7 +74,7 @@ class Formagic_Item_Value_UploadValue
         $this->fileName = $fileName;
         $this->mimeType = $mimeType;
         $this->uploadedFilePath = $uploadedFilePath;
-        $this->uploadErrorStatus = $uploadError;
+        $this->uploadStatus = $uploadError;
         $this->fileSize = $fileSize;
     }
 
@@ -111,9 +112,9 @@ class Formagic_Item_Value_UploadValue
      *
      * @return integer Error status
      */
-    public function getUploadErrorStatus()
+    public function getUploadStatus()
     {
-        return $this->uploadErrorStatus;
+        return $this->uploadStatus;
     }
 
     /**

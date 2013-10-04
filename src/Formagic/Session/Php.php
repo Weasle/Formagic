@@ -25,8 +25,7 @@
  * @category    Formagic
  * @package     Session
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2009 Florian Sonnenburg
- * @version     $Id: Php.php 173 2012-05-16 13:19:22Z meweasle $, $Revision: 70 $
+ * @copyright   Copyright (c) 2013 Florian Sonnenburg
  **/
 class Formagic_Session_Php implements Formagic_Session_Interface
 {

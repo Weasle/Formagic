@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Rule
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -25,9 +25,8 @@
  * @category    Formagic
  * @package     Rule
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2011 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
- * @version     $Id: ItemDependency.php 173 2012-05-16 13:19:22Z meweasle $
  **/
 class Formagic_Rule_ItemDependency extends Formagic_Rule_Abstract
 {

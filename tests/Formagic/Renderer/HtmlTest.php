@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Test
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -25,8 +25,7 @@
  * @category    Formagic
  * @package     Tests
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
- * @version     $Id: HtmlTest.php 173 2012-05-16 13:19:22Z meweasle $
+ * @copyright   Copyright (c) 2011 Florian Sonnenburg
  **/
 class Formagic_HtmlTest extends PHPUnit_Framework_TestCase
 {

@@ -31,39 +31,6 @@
 class Formagic_Item_Upload extends Formagic_Item_Abstract
 {
     /**
-     * Array of file properties
-     * @var array
-     */
-    protected $_fileProperties = array();
-
-    /**
-     * Returns all properties of the uploaded file
-     *
-     * @return array
-     */
-    public function getFileProperties()
-    {
-        return $this->_fileProperties;
-    }
-
-    /**
-     * Checks if the uploaded file was uploaded successfully
-     *
-     * @throws Formagic_Exception_UploadException if upload property can not be found
-     *
-     * @return boolean
-     */
-    public function isUploadedSuccessfully()
-    {
-        $properties = $this->getFileProperties();
-        if (!array_key_exists('error', $properties)) {
-            throw new Formagic_Exception_UploadException('Upload error property not found');
-        }
-
-        return $properties['error'] == UPLOAD_ERR_OK;
-    }
-
-    /**
      * HTML string representation of upload input field
      *
      * @return string

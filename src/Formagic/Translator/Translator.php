@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Translator
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2010 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2010 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -31,7 +31,6 @@
  * @package     Translator
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2010 Florian Sonnenburg
- * @version     $Id: Translator.php 173 2012-05-16 13:19:22Z meweasle $
  */
 class Formagic_Translator
 {

@@ -16,7 +16,7 @@
  * @package     Rule
  * @author      Marc Schrader
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -27,8 +27,7 @@
  * @package     Rule
  * @author      Marc Schrader
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
- * @version     $Id: Numeric.php 173 2012-05-16 13:19:22Z meweasle $
+ * @copyright   Copyright (c) 2011 Florian Sonnenburg
  **/
 class Formagic_Rule_Numeric extends Formagic_Rule_Abstract
 {

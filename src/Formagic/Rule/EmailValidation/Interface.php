@@ -16,7 +16,7 @@
  * @package     Rule
  * @subpackage  EmailValidation
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -27,8 +27,7 @@
  * @package     Rule
  * @subpackage  EmailValidation
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
- * @version     $Id: $
+ * @copyright   Copyright (c) 2011 Florian Sonnenburg
  **/
 interface Formagic_Rule_EmailValidation_Interface
 {

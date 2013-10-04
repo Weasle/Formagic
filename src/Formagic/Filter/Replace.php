@@ -15,19 +15,18 @@
  * @category    Formagic
  * @package     Filter
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2009 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
- * Accepts a key-value array of replacements, the key beeing the value to be
- * replaced, the value beeing the replacement.
+ * Accepts a key-value array of replacements, the key being the value to be
+ * replaced, the value being the replacement.
  *
  * @category    Formagic
  * @package     Filter
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2009 Florian Sonnenburg
- * @version     $Id: Replace.php 173 2012-05-16 13:19:22Z meweasle $
  **/
 class Formagic_Filter_Replace implements Formagic_Filter_Interface
 {

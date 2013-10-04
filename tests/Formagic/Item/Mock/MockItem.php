@@ -1,9 +1,6 @@
 <?php
 class Formagic_Item_Mock_MockItem extends Formagic_Item_Abstract
 {
-    /**
-     *
-     */
     const HTML_OUTPUT = 'myHtmlOutput';
     const HTML_OUTPUT_READONLY = 'myHtmlOutputReadonly';
 

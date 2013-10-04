@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Renderer
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2009 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -25,8 +25,7 @@
  * @category    Formagic
  * @package     Renderer
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2009 Florian Sonnenburg
- * @version     $Id: Array.php 173 2012-05-16 13:19:22Z meweasle $
+ * @copyright   Copyright (c) 2009 Florian Sonnenburg
  */
 class Formagic_Renderer_Array implements Formagic_Renderer_Interface
 {

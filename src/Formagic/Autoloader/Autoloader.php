@@ -1,12 +1,32 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: Florian
- * Date: 12.09.13
- * Time: 20:32
- * To change this template use File | Settings | File Templates.
+ * Formagic
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at
+ * http://www.formagic-php.net/license-agreement/
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@formagic-php.net so we can send you a copy immediately.
+ *
+ * @category  Formagic
+ * @package   Autoloader
+ * @author    Florian Sonnenburg
+ * @copyright Copyright (c) 2008-2013 Florian Sonnenburg
+ * @license   http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
+/**
+ * Autoloader implementation for Formagic classes.
+ *
+ * @category    Formagic
+ * @package     Autoloader
+ * @author      Florian Sonnenburg
+ * @copyright   Copyright (c) 2008-2013 Florian Sonnenburg
+ **/
 class Formagic_Autoloader
 {
     /**
@@ -24,7 +44,7 @@ class Formagic_Autoloader
     /**
      * @param array $baseDirs Array of directories to load classes from
      */
-    public function __construct(array $baseDirs)
+    public function __construct(array $baseDirs = array())
     {
         $formagicDir = dirname(dirname(__FILE__));
         array_unshift($baseDirs, $formagicDir);
@@ -37,9 +57,11 @@ class Formagic_Autoloader
      * @param array $baseDirs Array of directories to load classes from
      * @param boolean $prepend Whether to prepend the autoloader or not
      *
-     * @return Formagic_Autoloaders
+     * @return Formagic_Autoloader
+     *
+     * @codeCoverageIgnore
      */
-    public static function register($baseDirs = array(), $prepend = false)
+    public static function register(array $baseDirs = array(), $prepend = false)
     {
         self::$instance = new Formagic_Autoloader($baseDirs);
         spl_autoload_register(array(self::$instance, 'loadClass'), true, $prepend);
@@ -49,6 +71,18 @@ class Formagic_Autoloader
 
     /**
      * Adds a directory to base dir stack (globally for all Formagic instances).
+     *
+     * Base directory of custom Formagic extension classes. It is assumed that
+     * a standard directory structure, similar to the Formagic directory structure,
+     * can be found inside the base dir:
+     *
+     * <pre>
+     *  - BaseDir
+     *    |- Filter
+     *    |- Item
+     *    |- Renderer
+     *    ^- Rule
+     * </pre>
      *
      * @param string $baseDir BaseDir to be added
      *
@@ -62,6 +96,16 @@ class Formagic_Autoloader
         }
 
         return $this;
+    }
+
+    /**
+     * Returns current base dirs
+     *
+     * @return array
+     */
+    public function getBaseDirs()
+    {
+        return $this->baseDirs;
     }
 
     /**
@@ -93,7 +137,7 @@ class Formagic_Autoloader
         foreach ($this->baseDirs as $dir) {
             $file = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $relative;
             if (file_exists($file)) {
-                include($file);
+                include $file;
                 return;
             }
         }

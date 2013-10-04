@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Formagic
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -31,16 +31,6 @@
  *  <dt>action</dt><dd>Form target action</dd>
  *  <dt>method</dt><dd>Either "post" or "get"</dd>
  *  <dt>name</dt><dd>Form name</dd>
- *  <dt>pluginBaseDir</dt><dd>Base directory of custom Formagic extension
- *  classes. It is assumed that a standard directory structure, similar to the
- *  Formagic directory structre, can be found inside the base dir:
- *  <pre>
- *  - BaseDir
- *    |- Filter
- *    |- Item
- *    |- Renderer
- *    ^- Rule</pre>
- *  </dd>
  *  <dt>renderer</dt><dd>Name of the renderer to be used. Defaults to "Html".
  *  See {@link #setRenderer setRenderer()} for details.</dd>
  *  <dt>trackSubmission</dt><dd>Enable or disable detailed submission tracking.
@@ -57,8 +47,7 @@
  * @category    Formagic
  * @package     Formagic
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2012 Florian Sonnenburg
- * @version     $Id: Formagic.php 175 2012-05-16 13:22:14Z meweasle $, $Revision: 70 $
+ * @copyright   Copyright (c) 2013 Florian Sonnenburg
  **/
 class Formagic
 {
@@ -116,12 +105,6 @@ class Formagic
      * @var Formagic_Item_Hidden
      */
     private $_submissionItem;
-
-    /**
-     * Array of directories classes are searched for
-     * @var array
-     */
-    protected static $_baseDirs = array();
 
     /**
      * Formagic_Translator object
@@ -300,16 +283,6 @@ class Formagic
     }
 
     /**
-     * Returns current plugin base directory stack.
-     *
-     * @return array Plugin base directory stack
-     */
-    public static function getBaseDirs()
-    {
-        return self::$_baseDirs;
-    }
-
-    /**
      * Defines renderer for current Formagic object
      *
      * @param string|Formagic_Renderer_Interface $renderer Formagic_Renderer
@@ -335,13 +308,12 @@ class Formagic
         if (!class_exists($class)) {
             throw new Formagic_Exception('Could not load renderer class ' . $class);
         }
-
-        try {
-            $this->_renderer = new $class();
-        } catch (Formagic_Exception $e) {
-            $message = 'Setting renderer failed: ' . $e->getMessage();
-            throw new Formagic_Exception($message);
+        $renderer = new $class();
+        if (!($renderer instanceOf Formagic_Renderer_Interface)) {
+            throw new Formagic_Exception('Renderer class is no instance of Formagic_Renderer_Interface');
         }
+
+        $this->_renderer = $renderer;
 
         return $this;
     }

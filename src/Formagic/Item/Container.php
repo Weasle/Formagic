@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2009 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -35,7 +35,6 @@
  * @package     Item
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2011 Florian Sonnenburg
- * @version     $Id: Container.php 173 2012-05-16 13:19:22Z meweasle $
  */
 class Formagic_Item_Container extends Formagic_Item_Abstract implements IteratorAggregate, Countable
 {

@@ -12,22 +12,20 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category  Formagic
- * @package   Item
- * @author    Florian Sonnenburg
- * @copyright Copyright (c) 2007 Florian Sonnenburg
- * @license   http://www.formagic-php.net/license-agreement/   New BSD License
+ * @category    Formagic
+ * @package     Item
+ * @author      Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * formagicItemSelect
  *
- * @category  Formagic
- * @package   Item
- * @author Florian Sonnenburg
- * @copyright Copyright (c) 2007
- * @version $Id: Select.php 173 2012-05-16 13:19:22Z meweasle $
- * @access public
+ * @category    Formagic
+ * @package     Item
+ * @author      Florian Sonnenburg
+ * @copyright   Copyright (c) 2007
  */
 class Formagic_Item_Select extends Formagic_Item_Abstract
 {

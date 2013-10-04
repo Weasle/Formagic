@@ -26,102 +26,49 @@
  * @package     Tests
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2013
- * @version     $Id: FormagicTest.php 173 2012-05-16 13:19:22Z meweasle $
  **/
-class Formagic_Autoloader_Test extends PHPUnit_Framework_TestCase
+class Formagic_Autoloader_AutoloaderTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Tests that loading a class from a baseDir works
+     */
+    public function testAddBaseDirByConstructor()
+    {
+        $baseDir = dirname(__FILE__);
+        $newBaseDirs = array($baseDir);
+
+        $subject = new Formagic_Autoloader($newBaseDirs);
+        $baseDirs = $subject->getBaseDirs();
+        $this->assertContains($baseDir, $baseDirs);
+    }
 
     /**
+     * Tests that loading a class from a baseDir works
      */
     public function testAddBaseDirByMethod()
     {
-        $this->markTestIncomplete();
-        $newBaseDir = realpath('.');
+        $baseDir = dirname(__FILE__);
 
-        // setting explicitly
-        $formagic = new Formagic();
-        $formagic->addBaseDir($newBaseDir);
-        $actual = $formagic->getBaseDirs();
-        $this->assertContains($newBaseDir, $actual);
+        $subject = new Formagic_Autoloader();
+        $baseDirs = $subject->getBaseDirs();
+        $this->assertNotContains($baseDir, $baseDirs);
+
+        $subject->addBaseDir($baseDir);
+        $baseDirs = $subject->getBaseDirs();
+        $this->assertContains($baseDir, $baseDirs);
     }
 
     /**
+     * Tests that loading a class that is already loaded will run without failures
      */
-    public function testAddBaseDuplicateDir()
+    public function testClassAlreadyLoaded()
     {
-        $this->markTestIncomplete();
-        $newBaseDir = realpath('.');
+        $newBaseDirs = array(dirname(dirname(__FILE__)));
 
-        $formagic = new Formagic(array(
-            'pluginBaseDir' => $newBaseDir
-        ));
-        $actual = Formagic::getBaseDirs();
-        $this->assertContains($newBaseDir, $actual);
-
-        Formagic::addBaseDir($newBaseDir);
-        $actual2 = Formagic::getBaseDirs();
-        $this->assertContains($newBaseDir, $actual2);
-        $this->assertEquals($actual, $actual2);
-    }
-
-    /**
-     */
-    public function testAddMultipleBaseDirs()
-    {
-        $this->markTestIncomplete();
-        $newBaseDir = realpath('.');
-        $newBaseDirNA = realpath('./notExists');
-        $newBaseDir2 = realpath('./MockClasses');
-
-        $formagic = new Formagic();
-        Formagic::addBaseDir($newBaseDir);
-        Formagic::addBaseDir($newBaseDirNA);
-        Formagic::addBaseDir($newBaseDir2);
-        $actual = Formagic::getBaseDirs();
-        $this->assertContains($newBaseDir, $actual);
-        $this->assertNotContains($newBaseDirNA, $actual);
-        $this->assertContains($newBaseDir2, $actual);
-    }
-
-    /**
-     */
-    public function testLoadClass()
-    {
-        $this->markTestIncomplete();
-        $className = 'Formagic_Item_MockItem';
-        $newBaseDir = realpath('./MockClasses');
-        Formagic::addBaseDir($newBaseDir);
-        Formagic::loadClass($className);
-        $this->assertEquals(true, class_exists($className));
-        
-        $className = 'Formagic_Translator';
-        Formagic::loadClass($className);
-        $this->assertEquals(true, class_exists($className));
-    }
-
-    /**
-     * @expectedException Formagic_Exception
-     */
-    public function testLoadClassFail()
-    {
-        $this->markTestIncomplete();
-        $className = 'Formagic_ClassNotExists';
-        $newBaseDir = realpath('.');
-        Formagic::addBaseDir($newBaseDir);
-        Formagic::loadClass($className);
-    }
-
-    /**
-     */
-    public function testLoadClassFromMultipleBaseDirs()
-    {
-        $this->markTestIncomplete();
-        $className = 'Formagic_Item_MockItem';
-        $newBaseDirFake = realpath('.');
-        $newBaseDirReal = realpath('./MockClasses');
-        Formagic::addBaseDir($newBaseDirFake);
-        Formagic::addBaseDir($newBaseDirReal);
-        Formagic::loadClass($className);
-        $this->assertEquals(true, class_exists($className));
+        $subject = new Formagic_Autoloader($newBaseDirs);
+        $subject->loadClass('Formagic_Autoloader_TestClass');
+        $subject->loadClass('Formagic_Autoloader_TestClass');
+        $classExists = class_exists('Formagic_Autoloader_TestClass', false);
+        $this->assertTrue($classExists);
     }
 }

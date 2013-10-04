@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Test
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2012 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -26,7 +26,6 @@
  * @package     Tests
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2012
- * @version     $Id: $
  **/
 class Formagic_Integration_RuleWithEmptyValueTest extends PHPUnit_Framework_TestCase
 {

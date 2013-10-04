@@ -16,7 +16,7 @@
  * @package     Rule
  * @subpackage  EmailValidation
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -28,8 +28,7 @@
  * @subpackage  EmailValidation
  * @author      Marc Schrader
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
- * @version     $Id: $
+ * @copyright   Copyright (c) 2011 Florian Sonnenburg
  **/
 class Formagic_Rule_EmailValidation_PhpFilter implements Formagic_Rule_EmailValidation_Interface
 {

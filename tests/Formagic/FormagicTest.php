@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Test
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -28,8 +28,7 @@
  * @category    Formagic
  * @package     Tests
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2010
- * @version     $Id: FormagicTest.php 173 2012-05-16 13:19:22Z meweasle $
+ * @copyright   Copyright (c) 2013
  **/
 class Formagic_Test extends PHPUnit_Framework_TestCase
 {
@@ -444,19 +443,22 @@ class Formagic_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals(true, $validated);
     }
 
+    /**
+     *
+     */
     public function testSetRenderer()
     {
-        $rendererObj = new Formagic_Renderer_Html();
-        
+        $rendererObj = $this->getMock('Formagic_Renderer_Interface');
+
         // set by option by string
         $formagic = new Formagic(array('renderer' => 'Html'));
         $renderer = $formagic->getRenderer();
-        $this->assertInstanceOf('Formagic_Renderer_Html', $renderer);
+        $this->assertInstanceOf('Formagic_Renderer_Interface', $renderer);
 
         // set by option by object
         $formagic = new Formagic(array('renderer' => $rendererObj));
         $renderer = $formagic->getRenderer();
-        $this->assertInstanceOf('Formagic_Renderer_Html', $rendererObj);
+        $this->assertInstanceOf('Formagic_Renderer_Interface', $rendererObj);
         $this->assertSame($rendererObj, $renderer);
 
         // set by method by string
@@ -470,10 +472,10 @@ class Formagic_Test extends PHPUnit_Framework_TestCase
         $formagic = new Formagic();
         $formagic->setRenderer($rendererObj);
         $renderer = $formagic->getRenderer();
-        $this->assertInstanceOf('Formagic_Renderer_Html', $rendererObj);
+        $this->assertInstanceOf('Formagic_Renderer_Interface', $rendererObj);
         $this->assertSame($rendererObj, $renderer);
     }
-    
+
     /**
      * Test that an exception is thrown if setRenderer() recieves wrong
      * argument type
@@ -488,13 +490,24 @@ class Formagic_Test extends PHPUnit_Framework_TestCase
     
     /**
      * Test that an exception is thrown if renderer class not found
-     * 
+     *
+     * @expectedException Formagic_Exception
+     */
+    public function testSetRendererMissingClassException()
+    {
+        $formagic = new Formagic();
+        $formagic->setRenderer('n_a');
+    }
+
+    /**
+     * Test that an exception is thrown if renderer class is no instance of Formagic_Renderer_Interface
+     *
      * @expectedException Formagic_Exception
      */
     public function testSetRendererInvalidClassException()
     {
         $formagic = new Formagic();
-        $formagic->setRenderer('n_a');
+        $formagic->setRenderer('Mock_NoRenderer');
     }
     
     /**

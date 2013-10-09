@@ -26,17 +26,17 @@ Please visit http://www.formagic-php.net for examples and How-Tos.
 Here is a very short example of Formagic to get you started:
 
 
-        include('Formagic.php');
-        $form = new Formagic();
-        $form
-            ->addItem('input', 'myInput', array('label' => 'My first input'))
-            ->addItem('submit', 'mySubmit', array('label' => 'Send'));
+    include('Formagic.php');
+    $form = new Formagic();
+    $form
+        ->addItem('input', 'myInput', array('label' => 'My first input'))
+        ->addItem('submit', 'mySubmit', array('label' => 'Send'));
     
-        if ($form->validate()) {
-            echo "submitted and ok<br />";
-            $form->setReadonly(true);
-        }
-        echo $form->render();
+    if ($form->validate()) {
+        echo "submitted and ok<br />";
+        $form->setReadonly(true);
+    }
+    echo $form->render();
 
 
 Of course there is much more to Formagic than this, but perhaps this will get

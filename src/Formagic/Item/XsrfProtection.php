@@ -52,6 +52,7 @@ class Formagic_Item_XsrfProtection extends Formagic_Item_Hidden
         if (!empty($additionalArgs['session'])) {
             $this->setSession($additionalArgs['session']);
         }
+        $this->_isHidden = true;
     }
 
     /**

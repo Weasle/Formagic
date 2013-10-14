@@ -32,13 +32,20 @@ class Formagic_Item_Button extends Formagic_Item_Abstract
     /**
      * Sets item to readonly.
      *
-     * @param array $additionalArgs Ignored for this item
+     * If attribute "type" is not given, the item defaults to type "button"
+     *
+     * @param array $additionalArgs Array of addition arguments
      * @return void
      */
     protected function _init($additionalArgs)
     {
         // can't be edited
         $this->_isReadonly = true;
+
+        // button type defaults to "button"
+        if (empty($this->_attributes['type'])) {
+            $this->_attributes['type'] = 'button';
+        }
     }
 
     /**
@@ -48,7 +55,7 @@ class Formagic_Item_Button extends Formagic_Item_Abstract
      */
     public function getHtml()
     {
-        $str = '<button type="button"' . $this->getAttributeStr() . '>'
+        $str = '<button' . $this->getAttributeStr() . '>'
             . $this->_label . '</button>';
         return $str;
     }

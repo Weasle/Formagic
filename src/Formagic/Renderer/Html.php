@@ -35,14 +35,10 @@ class Formagic_Renderer_Html implements Formagic_Renderer_Interface
      **/
     protected $_formWrapperTemplate =
 '
-<!-- formagic HTML renderer start
-============================= -->
 <form action="%ACTION%" method="%METHOD%"%ATTRIBUTES%>
     %HIDDENS%
     %CONTAINER%
 </form>
-<!-- formagic HTML renderer end
-=========================== -->
 ';
 
     /**
@@ -51,7 +47,7 @@ class Formagic_Renderer_Html implements Formagic_Renderer_Interface
      **/
     protected $_containerWrapperTemplate = array('' =>
     '<table border="0" cellpadding="0" cellspacing="0"%ATTRIBUTES%>
-        <!-- form rows -->%ROWS%
+        %ROWS%
     </table>'
     );
 
@@ -63,7 +59,6 @@ class Formagic_Renderer_Html implements Formagic_Renderer_Interface
         '
         <tr>
             <td colspan="2">
-                <!-- Container -->
                 %CONTAINER%</td>
         </tr>'
     );
@@ -83,7 +78,7 @@ class Formagic_Renderer_Html implements Formagic_Renderer_Interface
         <tr>
             <td>%LABEL%</td>
             <td>%ERROR%
-                <!-- Input -->%INPUT%</td>
+                %INPUT%</td>
         </tr>'
     );
 
@@ -92,7 +87,7 @@ class Formagic_Renderer_Html implements Formagic_Renderer_Interface
      * @var array
      **/
     protected $_itemLabelTemplate = array('' =>
-        '<!-- Label --><label for="%ID%"%ERRORCLASS%>%LABEL%%MANDATORYMARKER%</label>'
+        '<label for="%ID%"%ERRORCLASS%>%LABEL%%MANDATORYMARKER%</label>'
     );
 
     /**
@@ -100,7 +95,7 @@ class Formagic_Renderer_Html implements Formagic_Renderer_Interface
      * @var array
      */
     protected $_itemErrorWrapperTemplate = array('' =>
-        '<!-- Error --><ul%ERRORCLASS%>%ERRORS%</ul>'
+        '<ul%ERRORCLASS%>%ERRORS%</ul>'
     );
 
     /**

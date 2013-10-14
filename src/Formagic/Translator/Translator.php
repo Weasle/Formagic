@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Translator
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2010 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -30,7 +30,7 @@
  * @category    Formagic
  * @package     Translator
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2010 Florian Sonnenburg
+ * @copyright   Copyright (c) 2013 Florian Sonnenburg
  */
 class Formagic_Translator
 {
@@ -44,8 +44,6 @@ class Formagic_Translator
      * Constructor
      *
      * Empty by default, allows subclass initialization.
-     *
-     * @return void
      */
     public function __construct()
     {

@@ -17,8 +17,6 @@
         "php": ">=5.1.0"
     },
     "autoload": {
-        "psr-0": {
-            "Formagic": "src"
-        }
+        "classmap": ["src/"]
     }
 }

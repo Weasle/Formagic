@@ -527,6 +527,30 @@ class Formagic_Item_Abstract_Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that filtered values are validated
+     */
+    public function testValidateFilteredValue()
+    {
+        $item = new Formagic_Item_Mock_MockItem('test');
+        $rule = $this->getMockForAbstractClass('Formagic_Rule_Abstract', array(), '', false);
+        $filter = new Formagic_Filter_Replace(array('foo' => 'bar'));
+
+        $rule
+            ->expects($this->once())
+            ->method('validate')
+            ->with('bar')
+            ->will($this->returnValue(true));
+
+        // one rule, validates true
+        $validationResult = $item
+            ->setValue('foo')
+            ->addRule($rule)
+            ->addFilter($filter)
+            ->validate();
+        $this->assertTrue($validationResult);
+    }
+
+    /**
      * Tests that validating a value type that is no string or array throws
      * an exception
      * 

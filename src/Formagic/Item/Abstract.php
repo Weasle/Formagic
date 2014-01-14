@@ -244,22 +244,17 @@ abstract class Formagic_Item_Abstract
     /**
      * Returns the current filtered value for this item.
      *
-     * @return mixed The filtered item value
+     * @return string The filtered item value
      */
     public function getValue()
     {
-        if (empty($this->_filters)) {
-            return $this->_value;
-        }
+        if (!isset($this->_filteredValue)) {
 
-        if (isset($this->_filteredValue)) {
-            return $this->_filteredValue;
-        }
-
-        // chain output of filters together
-        $this->_filteredValue = $this->_value;
-        foreach ($this->_filters as $filter) {
-            $this->_filteredValue = $this->_filterValue($filter, $this->_filteredValue);
+            // chain output of filters together
+            $this->_filteredValue = $this->_value;
+            foreach ($this->_filters as $filter) {
+                $this->_filteredValue = $this->_filterValue($filter, $this->_filteredValue);
+            }
         }
 
         return $this->_filteredValue;
@@ -602,7 +597,7 @@ abstract class Formagic_Item_Abstract
     {
         $this->_violatedRules = array();
         foreach($this->_rules as $rule) {
-            if (!$this->_validateItemValue($rule, $this->_value)) {
+            if (!$this->_validateItemValue($rule, $this->getValue())) {
                 $this->_violatedRules[] = $rule;
             }
         }

@@ -49,17 +49,19 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
 
     /**
      * Tells where the empty element is going.
-     * @var constant
+     * @var integer
      **/
     private $_emptyPosition;
 
     /**
      * Place empty element as first item.
+     * @constant integer
      **/
     const EMPTY_PREPEND = 1;
 
     /**
      * Place empty element as last item.
+     * @constant integer
      **/
     const EMPTY_APPEND  = 2;
 
@@ -67,6 +69,9 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
      * Radio item initialization.
      *
      * @param array $additionalArgs Array of additional options for radio item
+     *
+     * @throws Formagic_Exception if invalid argument is provided
+     *
      * @return boolean
      */
     protected function _init($additionalArgs)
@@ -200,6 +205,7 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
             $attributes['type'] = 'radio';
 
             $i = 0;
+            $inputWithLabel = array();
             foreach($data as $key => $label) {
                 $i++;
                 $key = htmlspecialchars($key);
@@ -213,13 +219,12 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
                     : null;
                 $attrStr = $this->_buildAttributeStr($currentAttributes);
 
-                $str .= '<input' . $attrStr . ' /><label for="' .
-                    $currentAttributes['id'] . '">' . $label . '</label>'
-                    . $this->_separator;
+                $inputWithLabel[] = '<input' . $attrStr . ' /><label for="' .
+                    $currentAttributes['id'] . '">' . $label . '</label>';
             }
+            $str .= implode($this->_separator, $inputWithLabel);
         }
 
-        $str = rtrim($str, $this->_separator);
         $str .= '</span>';
         return $str;
     }

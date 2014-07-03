@@ -353,7 +353,7 @@ class Formagic_Item_Radio_Test extends PHPUnit_Framework_TestCase
         ));
 
         $html   = $input->getHtml();
-        $this->assertRegExp('~</label>$~', $html);
+        $this->assertRegExp('~</label></span>$~', $html);
     }
 
     /**

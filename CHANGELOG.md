@@ -39,3 +39,8 @@ Formagic 1.5
 * Removed all require statements
 * Introduced value object for file uploads, allowing to attach common filters and rules without breaking (even those
   common filters and rules would probably not be very useful for uploaded files)
+
+Formagic 1.5.3
+==============
+* Bugfix issue "Missing closing label-tag" #10
+* Bugfix issue "Formagic_Item_Container does not aggregate the rule violations for contained items" #8

@@ -44,3 +44,5 @@ Formagic 1.5.3
 ==============
 * Bugfix issue "Missing closing label-tag" #10
 * Bugfix issue "Formagic_Item_Container does not aggregate the rule violations for contained items" #8
+* Bugfix issue "Formagic needs an accesor for its name." #14
+* Added Formagic_Translator_Interface

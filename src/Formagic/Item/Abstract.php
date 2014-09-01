@@ -25,7 +25,7 @@
  * @category    Formagic
  * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011 Florian Sonnenburg
+ * @copyright   Copyright (c) 2013 Florian Sonnenburg
  **/
 abstract class Formagic_Item_Abstract
 {
@@ -168,7 +168,7 @@ abstract class Formagic_Item_Abstract
                         foreach($arg as $filter => $args) {
                             if (is_numeric($filter)) {
                                 $filter = $args;
-                                $args = null;
+                                $args = array();
                             }
                             $this->addFilter($filter, $args);
                         }

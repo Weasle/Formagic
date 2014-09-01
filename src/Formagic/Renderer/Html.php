@@ -128,18 +128,18 @@ class Formagic_Renderer_Html implements Formagic_Renderer_Interface
 
     /**
      * Translator object
-     * @var Formagic_Translator
+     * @var Formagic_Translator_Interface
      **/
     protected $_translator;
 
     /**
      * Sets the translator object for this renderer instance
      *
-     * @param Formagic_Translator $translator Translator instance
+     * @param Formagic_Translator_Interface $translator Translator instance
      */
-    public function __construct(Formagic_Translator $translator = null)
+    public function __construct(Formagic_Translator_Interface $translator = null)
     {
-        if (is_null($translator)) {
+        if (null === $translator) {
             $translator = Formagic::getTranslator();
         }
         $this->_translator = $translator;
@@ -148,7 +148,7 @@ class Formagic_Renderer_Html implements Formagic_Renderer_Interface
     /**
      * Returns current translator instance.
      *
-     * @return Formagic_Translator Translator object
+     * @return Formagic_Translator_Interface Translator object
      */
     public function getTranslator()
     {

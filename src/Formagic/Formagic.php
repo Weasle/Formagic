@@ -115,7 +115,7 @@ class Formagic
     /**
      * Formagic version
      **/
-    const VERSION           = '1.5.0';
+    const VERSION           = '1.5.3';
 
     /**
      * Formagic API version
@@ -130,9 +130,8 @@ class Formagic
      **/
     public function __construct(array $options = null)
     {
-        if(isset($options['name']))
-        {
-            $this->_setName($options['name']);
+        if (isset($options['name'])) {
+            $this->setName($options['name']);
             unset($options['name']);
         }
 
@@ -335,14 +334,23 @@ class Formagic
      *
      * @return Formagic Fluent interface
      */
-    private function _setName($name)
+    public function setName($name)
     {
         $this->_name = $name;
-        if($this->_trackSubmission)
-        {
+        if ($this->_trackSubmission) {
             $this->_getTrackSubmissionItem()->addAttribute('name', 'fm_ts__' . $name);
         }
         return $this;
+    }
+
+    /**
+     * Returns current form name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_name;
     }
 
     /**
@@ -357,8 +365,7 @@ class Formagic
     public function setMethod($method)
     {
         $method = strtolower($method);
-        if (!in_array($method, $this->_supportedMethods))
-        {
+        if (!in_array($method, $this->_supportedMethods)) {
             throw new Formagic_Exception();
         }
         $this->_method = strtolower($method);
@@ -438,7 +445,7 @@ class Formagic
      *
      * If no translator is specified, an empty translator object is returned.
      *
-     * @return Formagic_Translator The translator object
+     * @return Formagic_Translator_Interface The translator object
      */
     public static function getTranslator()
     {

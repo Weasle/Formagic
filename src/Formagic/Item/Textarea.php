@@ -29,6 +29,10 @@
  */
 class Formagic_Item_Textarea extends Formagic_Item_Abstract
 {
+    /**
+     * @const Item type
+     */
+    const ITEM_TYPE = 'textarea';
 
     /**
      * HTML string representation of text input field

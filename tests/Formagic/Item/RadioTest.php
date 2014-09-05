@@ -340,6 +340,23 @@ class Formagic_Item_Radio_Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the closing label tag is kept unchanged when using a separator
+     */
+    public function testOutputWithSeparator()
+    {
+        $input = new Formagic_Item_Radio('test');
+        $input->setSeparator('<span></span>');
+
+        $input->setData(array(
+            'val1' => 'Label 1',
+            'val2' => 'Label 2'
+        ));
+
+        $html   = $input->getHtml();
+        $this->assertRegExp('~</label></span>$~', $html);
+    }
+
+    /**
      * Test HTML output of radio field, using an empty element
      */
     public function testCheckedElement()

@@ -30,6 +30,11 @@
 class Formagic_Item_Button extends Formagic_Item_Abstract
 {
     /**
+     * @const Item type
+     */
+    const ITEM_TYPE = 'button';
+
+    /**
      * Sets item to readonly.
      *
      * If attribute "type" is not given, the item defaults to type "button"

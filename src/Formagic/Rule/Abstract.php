@@ -25,7 +25,7 @@
  * @category    Formagic
  * @package     Rule
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2009 Florian Sonnenburg
+ * @copyright   Copyright (c) 2013 Florian Sonnenburg
  **/
 abstract class Formagic_Rule_Abstract
 {

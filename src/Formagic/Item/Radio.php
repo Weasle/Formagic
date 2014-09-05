@@ -15,7 +15,7 @@
  * @category    Formagic
  * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   Copyright (c) 2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -25,9 +25,14 @@
  * @category    Formagic
  * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2009 Florian Sonnenburg
+ * @copyright   Copyright (c) 2014 Florian Sonnenburg
  */
-class Formagic_Item_Radio extends Formagic_Item_Abstract {
+class Formagic_Item_Radio extends Formagic_Item_Abstract
+{
+    /**
+     * @const Item type
+     */
+    const ITEM_TYPE = 'radio';
 
     /**
      * Array containing radio options.
@@ -49,17 +54,19 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
 
     /**
      * Tells where the empty element is going.
-     * @var constant
+     * @var integer
      **/
     private $_emptyPosition;
 
     /**
      * Place empty element as first item.
+     * @constant integer
      **/
     const EMPTY_PREPEND = 1;
 
     /**
      * Place empty element as last item.
+     * @constant integer
      **/
     const EMPTY_APPEND  = 2;
 
@@ -67,12 +74,15 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
      * Radio item initialization.
      *
      * @param array $additionalArgs Array of additional options for radio item
+     *
+     * @throws Formagic_Exception if invalid argument is provided
+     *
      * @return boolean
      */
     protected function _init($additionalArgs)
     {
-        foreach($additionalArgs as $key => $arg) {
-            switch($key){
+        foreach ($additionalArgs as $key => $arg) {
+            switch ($key){
                 case 'separator':
                     $this->_separator = $arg;
                     break;
@@ -86,8 +96,7 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
                     $this->setData($arg);
                     break;
                 default:
-                    throw new Formagic_Exception("Argument type '$key' not "
-                        . 'supported');
+                    throw new Formagic_Exception("Argument type '$key' not supported");
             } // switch
         }
     }
@@ -105,8 +114,7 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
      */
     public function setEmpty($element = true, $position = Formagic_Item_Radio::EMPTY_PREPEND)
     {
-        if(!is_string($element) && !is_array($element) && ($element !== true))
-        {
+        if (!is_string($element) && !is_array($element) && ($element !== true)) {
             throw new Formagic_Exception('Empty radio element can only be '
                 . 'TRUE, string or array');
         }
@@ -120,7 +128,7 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
         }
         
         // element is TRUE
-        if(is_bool($element)) {
+        if (is_bool($element)) {
             $this->_emptyElement = array('' => '---');
         
         // element is pre-defined key => value - pair
@@ -150,6 +158,28 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
     }
 
     /**
+     * Returns data array including optional empty element.
+     *
+     * @return array
+     */
+    protected function getData()
+    {
+        $mergedData = $this->_data;
+
+        // insert empty element into array of elements
+        if (!is_null($this->_emptyElement)) {
+            $emptyItem = is_array($this->_emptyElement)
+                ? $this->_emptyElement
+                : array('' => $this->_emptyElement);
+            $mergedData = $this->_emptyPosition == Formagic_Item_Radio::EMPTY_APPEND
+                ? $mergedData + $emptyItem
+                : $emptyItem + $mergedData;
+        }
+
+        return $mergedData;
+    }
+
+    /**
      * Sets the separator string to be displayed between radio fields.
      *
      * @param string $separator Separator string
@@ -168,26 +198,17 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
      */
     public function getHtml()
     {
-        $data = $this->_data;
-        
-        // insert empty element into array of elements
-        if (!is_null($this->_emptyElement)) {
-            $emptyItem = is_array($this->_emptyElement)
-                ? $this->_emptyElement
-                : array('' => $this->_emptyElement);
-            $data = $this->_emptyPosition == Formagic_Item_Radio::EMPTY_APPEND
-                    ? $data + $emptyItem
-                    : $emptyItem + $data;
-        }
-
         $currVal = htmlspecialchars($this->getValue());
         $str = '<span id="' . $this->getAttribute('id') . '">';
 
+        $inputWithLabel = array();
+
         // HTML blocked
         if ($this->_isReadonly) {
+            $data = $this->getData();
             $str .= '<input type="hidden" name="' . $this->getAttribute('name')
                     . '" value="' . $currVal . '" />';
-            foreach($data as $key => $value) {
+            foreach ($data as $key => $value) {
                 $value = htmlspecialchars($value);
                 $key = htmlspecialchars($key);
                 $checkIndicator = $key == $currVal ? "(o)" : "(&nbsp;&nbsp;)";
@@ -199,29 +220,70 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract {
             $attributes = $this->getAttributes();
             $attributes['type'] = 'radio';
 
+            $inputs = $this->getRadioInputs();
+            $labels = $this->getRadioLabels();
+            foreach ($inputs as $key => $input) {
+                $i = $key + 1;
+                $inputWithLabel[] = $input
+                    . '<label for="' . $attributes['id'] . $i . '">'
+                    . $labels[$key]
+                    . '</label>';
+            }
+        }
+
+        $str .= implode($this->_separator, $inputWithLabel);
+        $str .= '</span>';
+
+        return $str;
+    }
+
+    /**
+     * Returns array of radio input strings
+     *
+     * @return array
+     */
+    public function getRadioInputs()
+    {
+        $data = $this->getData();
+        $inputs = array();
+
+        if (!empty($data)) {
+            $currVal = htmlspecialchars($this->getValue());
+
+            $attributes = $this->getAttributes();
+            $attributes['type'] = 'radio';
+
             $i = 0;
             foreach($data as $key => $label) {
                 $i++;
-                $key = htmlspecialchars($key);
-                
+                $inputValue = htmlspecialchars($key);
+
                 $currentAttributes = $attributes;
                 $currentAttributes['id'] = $attributes['id'] . $i;
                 $currentAttributes['value'] = $key;
 
-                $currentAttributes['checked'] = (string)$key == (string)$currVal
+                $currentAttributes['checked'] = (string)$inputValue == (string)$currVal
                     ? 'checked'
                     : null;
                 $attrStr = $this->_buildAttributeStr($currentAttributes);
 
-                $str .= '<input' . $attrStr . ' /><label for="' .
-                    $currentAttributes['id'] . '">' . $label . '</label>'
-                    . $this->_separator;
+                $inputs[] = '<input' . $attrStr . ' />';
             }
         }
 
-        $str = rtrim($str, $this->_separator);
-        $str .= '</span>';
-        return $str;
+        return $inputs;
     }
 
+    /**
+     * Returns array of radio labels
+     *
+     * @return array
+     */
+    public function getRadioLabels()
+    {
+        $data = $this->getData();
+        $labels = array_values($data);
+
+        return $labels;
+    }
 }

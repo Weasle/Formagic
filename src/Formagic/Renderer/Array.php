@@ -75,7 +75,8 @@ class Formagic_Renderer_Array implements Formagic_Renderer_Interface
     private function _assembleData(Formagic_Item_Container $container)
     {
         $itemRes = array();
-        foreach ($container as $key => $item) {
+        /* @var Formagic_Item_Abstract $item */
+        foreach ($container as $item) {
             // skip disabled items
             if ($item->isDisabled()) {
                 continue;
@@ -98,6 +99,7 @@ class Formagic_Renderer_Array implements Formagic_Renderer_Interface
 
             // common properties
             $itemRes['name'] = $name;
+            $itemRes['type'] = $item->getType();
 
             // value
             $val = $item->getValue();
@@ -108,16 +110,29 @@ class Formagic_Renderer_Array implements Formagic_Renderer_Interface
             //error status
             $rules = $item->getViolatedRules();
             $itemRes['error'] = array();
+
+            /* @var Formagic_Rule_Abstract $rule */
             foreach ($rules as $rule) {
                 $itemRes['error'][] = $rule->getMessage();
                 $this->_hasErrors = true;
             }
 
-            // HTML input string
-            $itemRes['html'] = $item->getHtml();
+            if ($item instanceOf Formagic_Item_Radio) {
+                // Radios return array of their data and labels
+
+                /* @var Formagic_Item_Radio $item */
+                $itemRes['html'] = $item->getHtml();
+                $itemReg['inputs'] = $item->getRadioInputs();
+                $itemReg['labels'] = $item->getRadioLabels();
+
+            } else {
+                // HTML input string
+                $itemRes['html'] = $item->getHtml();
+            }
 
             // Label
             $itemRes['label'] = $item->getLabel();
+
 
             // has mandatory rule
             $itemRes['isMandatory'] = $item->hasRule('mandatory');

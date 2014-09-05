@@ -108,14 +108,14 @@ class Formagic
 
     /**
      * Formagic_Translator object
-     * @var Formagic_Translator
+     * @var Formagic_Translator_Interface
      **/
     protected static $_translator;
 
     /**
      * Formagic version
      **/
-    const VERSION           = '1.5.0';
+    const VERSION           = '1.5.3';
 
     /**
      * Formagic API version
@@ -130,9 +130,8 @@ class Formagic
      **/
     public function __construct(array $options = null)
     {
-        if(isset($options['name']))
-        {
-            $this->_setName($options['name']);
+        if (isset($options['name'])) {
+            $this->setName($options['name']);
             unset($options['name']);
         }
 
@@ -335,14 +334,23 @@ class Formagic
      *
      * @return Formagic Fluent interface
      */
-    private function _setName($name)
+    public function setName($name)
     {
         $this->_name = $name;
-        if($this->_trackSubmission)
-        {
+        if ($this->_trackSubmission) {
             $this->_getTrackSubmissionItem()->addAttribute('name', 'fm_ts__' . $name);
         }
         return $this;
+    }
+
+    /**
+     * Returns current form name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_name;
     }
 
     /**
@@ -357,8 +365,7 @@ class Formagic
     public function setMethod($method)
     {
         $method = strtolower($method);
-        if (!in_array($method, $this->_supportedMethods))
-        {
+        if (!in_array($method, $this->_supportedMethods)) {
             throw new Formagic_Exception();
         }
         $this->_method = strtolower($method);
@@ -406,7 +413,7 @@ class Formagic
      * translator method, or a translator object. In the latter case the
      * translator method is assumed '$translatorObject->_($string)'.
      *
-     * @param array|object|Formagic_Translator $translatorDefinition One of the following:
+     * @param array|object|Formagic_Translator_Interface $translatorDefinition One of the following:
      *  <ul><li> Array with translator object and method</li>
      *  <li> any translator object</li>
      *  <li> Formagic_Translator object</li></ul>
@@ -415,9 +422,10 @@ class Formagic
     public static function setTranslator($translatorDefinition = null)
     {
         $method = '_';
-        if ($translatorDefinition instanceOf Formagic_Translator) {
+        if ($translatorDefinition instanceOf Formagic_Translator_Interface) {
             self::$_translator = $translatorDefinition;
             return;
+
         } elseif (is_array($translatorDefinition)) {
             $object = $translatorDefinition[0];
             if (isset($translatorDefinition[1])) {
@@ -438,7 +446,7 @@ class Formagic
      *
      * If no translator is specified, an empty translator object is returned.
      *
-     * @return Formagic_Translator The translator object
+     * @return Formagic_Translator_Interface The translator object
      */
     public static function getTranslator()
     {

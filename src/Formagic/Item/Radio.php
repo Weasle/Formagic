@@ -27,7 +27,12 @@
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2014 Florian Sonnenburg
  */
-class Formagic_Item_Radio extends Formagic_Item_Abstract {
+class Formagic_Item_Radio extends Formagic_Item_Abstract
+{
+    /**
+     * @const Item type
+     */
+    const ITEM_TYPE = 'radio';
 
     /**
      * Array containing radio options.

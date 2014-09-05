@@ -30,6 +30,11 @@
 class Formagic_Item_Password extends Formagic_Item_Abstract
 {
     /**
+     * @const Item type
+     */
+    const ITEM_TYPE = 'password';
+
+    /**
      * Returns string representation of password item.
      *
      * Will not render clear text password to HTML

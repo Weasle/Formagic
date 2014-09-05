@@ -30,6 +30,11 @@
 class Formagic_Item_Hidden extends Formagic_Item_Abstract
 {
     /**
+     * @const Item type
+     */
+    const ITEM_TYPE = 'hidden';
+
+    /**
      * Object initialisation.
      *
      * @param array $additionalArgs Ignored for this item

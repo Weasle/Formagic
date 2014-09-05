@@ -39,6 +39,11 @@
 class Formagic_Item_Container extends Formagic_Item_Abstract implements IteratorAggregate, Countable
 {
     /**
+     * @const Item type
+     */
+    const ITEM_TYPE = 'container';
+
+    /**
      * Pointer to items array section of formagic object
      * @var Formagic_Item_Abstract[]
      **/
@@ -337,8 +342,9 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
                 continue;
             }
 
-            $value = $item->getValue();
             if ($item instanceOf Formagic_Item_Container) {
+                /** @var array $value */
+                $value = $item->getValue();
                 $res = $res + $value;
             } else {
                 $res[$item->getName()] = $item->getValue();

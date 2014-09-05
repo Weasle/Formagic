@@ -205,7 +205,7 @@ abstract class Formagic_Item_Abstract
      */
     public function getType()
     {
-        return self::ITEM_TYPE;
+        return static::ITEM_TYPE;
     }
 
     /**

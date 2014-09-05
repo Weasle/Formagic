@@ -25,56 +25,52 @@
  * @category    Formagic
  * @package     Renderer
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2013 Florian Sonnenburg
+ * @copyright   Copyright (c) 2011 Florian Sonnenburg
  **/
 class Formagic_Renderer_Xhtml extends Formagic_Renderer_Html
 {
     /**
-     * {@inheritDoc}
+     * Constructor
+     * 
+     * @param Formagic_Translator $translator Translator object
      */
-    protected $_containerWrapperTemplate = array('' =>
-    '
-    <fieldset%ATTRIBUTES%>%LABEL%
+    public function  __construct(Formagic_Translator $translator = null)
+    {
+        parent::__construct($translator);
+        
+        /**
+         * Container wrapping template
+         **/
+        $this->_containerWrapperTemplate = array('' =>
+    '<fieldset%ATTRIBUTES%>%LABEL%
         <dl>
             %ROWS%
         </dl>
     </fieldset>'
-    );
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $_containerLabelTemplate = array('' =>
-        '
+        );
+        
+        $this->_containerLabelTemplate = array('' => 
+            '
         <legend>%LABEL%</legend>'
-    );
+        );
 
-    /**
-     * {@inheritDoc}
-     */
-    protected $_containerRowTemplate = array('' =>
-        '
-        <dd>
-            %CONTAINER%
-        </dd>'
-    );
+        /**
+         * Template for rows containing containers
+         **/
+        $this->_containerRowTemplate = array('' =>
+            '
+            <dd>
+        %CONTAINER%
+            </dd>'
+        );
 
-    /**
-     * {@inheritDoc}
-     */
-    protected $_itemRowTemplate = array('' =>
-        '
-        <dt>%LABEL%</dt>
-        <dd>%ERROR%%INPUT%</dd>'
-    );
-
-    /**
-     * Constructor
-     * 
-     * @param Formagic_Translator_Interface $translator Translator object
-     */
-    public function  __construct(Formagic_Translator_Interface $translator = null)
-    {
-        parent::__construct($translator);
+        /**
+         * Template for rows containing normal items
+         **/
+        $this->_itemRowTemplate = array('' =>
+            '
+            <dt>%LABEL%</dt>
+            <dd>%ERROR%%INPUT%</dd>'
+        );
     }
 }

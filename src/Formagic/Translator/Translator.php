@@ -32,7 +32,7 @@
  * @author      Florian Sonnenburg
  * @copyright   Copyright (c) 2013 Florian Sonnenburg
  */
-class Formagic_Translator implements Formagic_Translator_Interface
+class Formagic_Translator
 {
     /**
      * Callback array containing the translation class and method
@@ -62,22 +62,17 @@ class Formagic_Translator implements Formagic_Translator_Interface
     }
 
     /**
-     * {@inheritDoc}
+     * Translates a string or returns it if no translator is set.
+     *
+     * @param string $string The string to be translated
+     * @return string The translated string
      */
-    public function _($string, array $arguments = array())
-    {
-        return $this->translate($string, $arguments);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function translate($string, array $arguments = array())
+    public function _($string)
     {
         if (!$this->_callback) {
             return $string;
         }
-        $res = call_user_func($this->_callback, $string, $arguments);
+        $res = call_user_func($this->_callback, $string);
         return $res;
     }
 }

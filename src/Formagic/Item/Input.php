@@ -29,10 +29,6 @@
  */
 class Formagic_Item_Input extends Formagic_Item_Abstract
 {
-    /**
-     * @const Item type
-     */
-    const ITEM_TYPE = 'text';
 
     /**
      * HTML string representation of text input field

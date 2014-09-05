@@ -30,11 +30,6 @@
 class Formagic_Item_Hidden extends Formagic_Item_Abstract
 {
     /**
-     * @const Item type
-     */
-    const ITEM_TYPE = 'hidden';
-
-    /**
      * Object initialisation.
      *
      * @param array $additionalArgs Ignored for this item
@@ -57,7 +52,7 @@ class Formagic_Item_Hidden extends Formagic_Item_Abstract
         $attributes['type'] = 'hidden';
         $attributesStr = $this->_buildAttributeStr($attributes);
 
-        $html = '<input ' . $attributesStr . ' />';
+        $html = '<input type="hidden"' . $attributesStr . ' />';
         return $html;
     }
 }

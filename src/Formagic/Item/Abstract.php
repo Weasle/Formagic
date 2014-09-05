@@ -25,7 +25,7 @@
  * @category    Formagic
  * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2013 Florian Sonnenburg
+ * @copyright   Copyright (c) 2011 Florian Sonnenburg
  **/
 abstract class Formagic_Item_Abstract
 {
@@ -114,12 +114,6 @@ abstract class Formagic_Item_Abstract
     protected $_isFixed = false;
 
     /**
-     * Keyword to determine what kind of item is represented by the current item class
-     * @const string
-     */
-    const ITEM_TYPE = 'undefined';
-
-    /**
      * Constructor
      *
      * @param string $name Name of item
@@ -174,7 +168,7 @@ abstract class Formagic_Item_Abstract
                         foreach($arg as $filter => $args) {
                             if (is_numeric($filter)) {
                                 $filter = $args;
-                                $args = array();
+                                $args = null;
                             }
                             $this->addFilter($filter, $args);
                         }
@@ -196,16 +190,6 @@ abstract class Formagic_Item_Abstract
      */
     protected function _init($additionalArgs)
     {
-    }
-
-    /**
-     * Returns item type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return self::ITEM_TYPE;
     }
 
     /**

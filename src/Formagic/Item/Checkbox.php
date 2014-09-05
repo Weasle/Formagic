@@ -30,11 +30,6 @@
 class Formagic_Item_Checkbox extends Formagic_Item_Abstract
 {
     /**
-     * @const Item type
-     */
-    const ITEM_TYPE = 'checkbox';
-
-    /**
      * Returns HTML representation of checkbox item.
      *
      * @see $_isReadonly

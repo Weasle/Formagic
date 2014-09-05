@@ -29,11 +29,6 @@
  */
 class Formagic_Item_Submit extends Formagic_Item_Abstract
 {
-    /**
-     * @const Item type
-     */
-    const ITEM_TYPE = 'submit';
-
    /**
      * Subclass initialization
      *

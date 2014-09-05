@@ -30,11 +30,6 @@
 class Formagic_Item_Html extends Formagic_Item_Abstract
 {
     /**
-     * @const Item type
-     */
-    const ITEM_TYPE = 'html';
-
-    /**
      * Enable or disable DIV wrapper
      * @var boolean
      */

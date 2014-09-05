@@ -30,11 +30,6 @@
 class Formagic_Item_Select extends Formagic_Item_Abstract
 {
     /**
-     * @const Item type
-     */
-    const ITEM_TYPE = 'select';
-
-    /**
      * Array containing select options
      * @var array
      */

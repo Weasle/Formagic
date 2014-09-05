@@ -31,11 +31,6 @@
 class Formagic_Item_Upload extends Formagic_Item_Abstract
 {
     /**
-     * @const Item type
-     */
-    const ITEM_TYPE = 'upload';
-
-    /**
      * HTML string representation of upload input field
      *
      * @return string

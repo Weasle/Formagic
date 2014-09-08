@@ -23,11 +23,13 @@ The easiest way to include Formagic into your project is using Composer. This wi
 download the necessary sources and create the autoloader for you, so you can just
 start using Formagic without further ado.
 
-    {
-        "require": {
-            "formagic/formagic": "1.5.2-pl1"
-        }
+```json
+{
+    "require": {
+        "formagic/formagic": "1.5.2-pl1"
     }
+}
+```
 
 You can also just unpack the ZIP-File you can download here at GitHub into a 
 directory of your choice and include formagic.php in your code.
@@ -38,19 +40,36 @@ USAGE
 Please visit http://www.formagic-php.net for examples and How-Tos.
 Here is a very short example of Formagic to get you started:
 
+```php
+<?php
 
-    <?php
-    $form = new Formagic();
-    $form
-        ->addItem('input', 'myInput', array('label' => 'My first input'))
-        ->addItem('submit', 'mySubmit', array('label' => 'Send'));
-    
-    if ($form->validate()) {
-        echo "submitted and ok<br />";
-        $form->setReadonly(true);
-    }
-    echo $form->render();
+$form = new Formagic();
+$form
+    ->addItem(
+        'input', 
+        'myInput', 
+        array(
+            'label' => 'My first input',
+            'rules' => 'mandatory'
+            )
+        )
+    ->addItem(
+        'submit', 
+        'mySubmit', 
+        array(
+            'label' => 'Send'
+        )
+    );
 
+// check if form only contains valid values
+if ($form->validate()) {
+    echo "submitted and ok<br />";
+    $form->setReadonly(true);
+}
+
+// displays the form
+echo $form->render();
+```
 
 Of course there is much more to Formagic than this, but this will get
 you a picture how easy it is to create HTML forms with Formagic.

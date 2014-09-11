@@ -356,9 +356,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
     /**
      * Validates contained items.
      *
-     * Iterates through all contained items. If any rule is violated, sub-item
-     * will return violated Formagic_Rule item and the container will pass it
-     * on.
+     * Iterates through all contained items. Disabled items are ignored for validation.
      *
      * If all items pass violation, validate() calls onValidate-handler and
      * returns its result.
@@ -369,6 +367,9 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
     {
         $valid = true;
         foreach ($this->_items as $item) {
+            if ($item->isDisabled()) {
+                continue;
+            }
             if (!$item->validate()) {
                 $valid = false;
             }

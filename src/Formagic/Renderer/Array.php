@@ -99,6 +99,7 @@ class Formagic_Renderer_Array implements Formagic_Renderer_Interface
 
             // common properties
             $itemRes['name'] = $name;
+            $itemRes['type'] = $item->getType();
 
             // value
             $val = $item->getValue();

@@ -114,6 +114,12 @@ abstract class Formagic_Item_Abstract
     protected $_isFixed = false;
 
     /**
+     * Keyword to determine what kind of item is represented by the current item class
+     * @const string
+     */
+    const ITEM_TYPE = 'undefined';
+
+    /**
      * Constructor
      *
      * @param string $name Name of item
@@ -190,6 +196,16 @@ abstract class Formagic_Item_Abstract
      */
     protected function _init($additionalArgs)
     {
+    }
+
+    /**
+     * Returns item type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return static::ITEM_TYPE;
     }
 
     /**

@@ -105,7 +105,6 @@ class Formagic_Item_Abstract_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals($hasFilter, true);
 
         // add as string on instantiation, multi
-        $filter2 = new Formagic_Filter_Mock_MockFilter2();
         $input  = new Formagic_Item_Mock_MockItem('test', array(
             'filters' => array('Mock_MockFilter', 'Mock_MockFilter2')));
         $hasFilter = $input->hasFilter('Mock_MockFilter');
@@ -726,6 +725,15 @@ class Formagic_Item_Abstract_Test extends PHPUnit_Framework_TestCase
         $item->setFixed(false);
         $item->setValue($expected);
         $actual = $item->getValue();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testGetType()
+    {
+        $expected = 'undefined';
+        /** @var Formagic_Item_Abstract $subject */
+        $subject = $this->getMockForAbstractClass('Formagic_Item_Abstract', array('abstract'));
+        $actual = $subject->getType();
         $this->assertEquals($expected, $actual);
     }
 }

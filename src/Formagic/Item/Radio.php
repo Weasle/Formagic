@@ -12,27 +12,24 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2014 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Input type radio for formagic formgenerator
  *
- * @category    Formagic
- * @package     Item
+ * @package     Formagic\Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2014 Florian Sonnenburg
+ * @since       0.2.0 First time introduced
  */
 class Formagic_Item_Radio extends Formagic_Item_Abstract
 {
     /**
-     * @const Item type
+     * @var string
      */
-    const ITEM_TYPE = 'radio';
+    protected $type = 'radio';
 
     /**
      * Array containing radio options.

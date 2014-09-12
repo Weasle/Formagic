@@ -12,10 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Translator
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -27,10 +25,9 @@
  * provided, Formagic_Translator will simply return the same string that was
  * passed in the first place.
  *
- * @category    Formagic
- * @package     Translator
+ * @package     Formagic\Translator
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2013 Florian Sonnenburg
+ * @since       1.0.0 First time introduced
  */
 class Formagic_Translator implements Formagic_Translator_Interface
 {

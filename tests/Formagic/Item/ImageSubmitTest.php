@@ -142,4 +142,12 @@ class Formagic_Item_ImageSubmit_Test extends PHPUnit_Framework_TestCase
         $actual = $input->getClickCoordinates();
         $this->assertEquals($expected, $actual);
     }
+
+    public function testGetType()
+    {
+        $subject = new Formagic_Item_ImageSubmit('test');
+        $expected = 'submit_image';
+        $actual = $subject->getType();
+        $this->assertEquals($expected, $actual);
+    }
 }

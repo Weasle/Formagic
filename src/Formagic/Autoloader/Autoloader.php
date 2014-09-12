@@ -12,20 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category  Formagic
- * @package   Autoloader
  * @author    Florian Sonnenburg
- * @copyright Copyright (c) 2008-2013 Florian Sonnenburg
+ * @copyright 2008-2014 Florian Sonnenburg
  * @license   http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Autoloader implementation for Formagic classes.
  *
- * @category    Formagic
- * @package     Autoloader
+ * @package     Formagic\Autoloader
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2008-2013 Florian Sonnenburg
+ * @since       1.5.0 First time introduced
  **/
 class Formagic_Autoloader
 {
@@ -42,6 +39,8 @@ class Formagic_Autoloader
     private static $instance;
 
     /**
+     * Constructor for Formagic autoloader
+     *
      * @param array $baseDirs Array of directories to load classes from
      */
     public function __construct(array $baseDirs = array())

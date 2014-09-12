@@ -12,20 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Renderer
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Returns form items in array form to be processed by custom display manager
  *
- * @category    Formagic
- * @package     Renderer
+ * @package     Formagic\Renderer
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2009 Florian Sonnenburg
+ * @since       0.2.0 First time introduced
  */
 class Formagic_Renderer_Array implements Formagic_Renderer_Interface
 {

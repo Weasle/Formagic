@@ -12,20 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Formagic image submit button item
  *
- * @category    Formagic
- * @package     Item
+ * @package     Formagic\Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2009 Florian Sonnenburg
+ * @since       1.0.0 First time introduced
  */
 class Formagic_Item_ImageSubmit extends Formagic_Item_Submit
 {
@@ -40,6 +37,11 @@ class Formagic_Item_ImageSubmit extends Formagic_Item_Submit
      * @var array
      */
     private $_clickCoordinates = array();
+
+    /**
+    * @var string
+    */
+    protected $type = 'submit_image';
 
    /**
      * Subclass initialization.

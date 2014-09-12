@@ -12,20 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Session
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
- * Formagic session interface
+ * Formagic PHP session class. Basic session implementation using PHP's default session handler.
  *
- * @category    Formagic
- * @package     Session
+ * @package     Formagic\Session
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2013 Florian Sonnenburg
+ * @since       1.1.0 First time introduced
  **/
 class Formagic_Session_Php implements Formagic_Session_Interface
 {

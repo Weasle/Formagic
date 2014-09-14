@@ -39,6 +39,9 @@ class Formagic_Translator_Test extends PHPUnit_Framework_TestCase
         $this->_formagic = new Formagic();
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSetTranslator()
     {
         $this->assertAttributeEmpty('_translator', 'Formagic');
@@ -67,6 +70,9 @@ class Formagic_Translator_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedValue, $actualValue);
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSetTranslatorStatic()
     {
         $this->assertAttributeEmpty('_translator', 'Formagic');

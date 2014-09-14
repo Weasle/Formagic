@@ -27,6 +27,7 @@
 class Formagic_Item_Input extends Formagic_Item_Abstract
 {
     /**
+     * Item type
      * @var string
      */
     protected $type = 'text';

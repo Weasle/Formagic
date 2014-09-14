@@ -27,7 +27,8 @@
 class Formagic_Item_Button extends Formagic_Item_Abstract
 {
     /**
-     * @var string Item type
+     * Item type
+     * @var string
      */
     protected $type = 'button';
 

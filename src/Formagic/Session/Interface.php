@@ -33,6 +33,7 @@ interface Formagic_Session_Interface
      * (null, empty string false, int 0).
      *
      * @param string $key Variable key
+     *
      * @return boolean
      */
     public function has($key);
@@ -64,6 +65,7 @@ interface Formagic_Session_Interface
      * Will silently do nothing if key does not exist.
      *
      * @param string $key Session key
+     *
      * @return Formagic_Session_Interface Fluent interface
      */
     public function remove($key);

@@ -39,11 +39,12 @@ class Formagic_Item_ImageSubmit extends Formagic_Item_Submit
     private $_clickCoordinates = array();
 
     /**
-    * @var string
-    */
+     * Item type
+     * @var string
+     */
     protected $type = 'submit_image';
 
-   /**
+    /**
      * Subclass initialization.
      *
      * @param array $additionalArgs Ignored for this item.

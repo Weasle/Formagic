@@ -53,7 +53,13 @@ class Formagic_Session_Php implements Formagic_Session_Interface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param string $key Session key
+     *
+     * @throws Formagic_Exception_SessionException if value not exists
+     *
+     * @return mixed Value from session storage
      */
     public function get($key)
     {
@@ -66,7 +72,11 @@ class Formagic_Session_Php implements Formagic_Session_Interface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param string $key Variable key
+     *
+     * @return boolean
      */
     public function has($key)
     {
@@ -74,7 +84,9 @@ class Formagic_Session_Php implements Formagic_Session_Interface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @return Formagic_Session_Interface Fluent interface
      */
     public function purge()
     {
@@ -84,7 +96,11 @@ class Formagic_Session_Php implements Formagic_Session_Interface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param string $key Session key
+     *
+     * @return Formagic_Session_Interface Fluent interface
      */
     public function remove($key)
     {
@@ -94,7 +110,12 @@ class Formagic_Session_Php implements Formagic_Session_Interface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param string $key Session key
+     * @param mixed $value Value to be saved into session
+     *
+     * @return Formagic_Session_Interface Fluent interface
      */
     public function set($key, $value)
     {

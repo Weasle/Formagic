@@ -60,6 +60,8 @@ class Formagic_Item_Value_UploadValue
     private $fileSize;
 
     /**
+     * Construct
+     *
      * @param string $fileName
      * @param string $mimeType
      * @param string $uploadedFilePath
@@ -76,6 +78,12 @@ class Formagic_Item_Value_UploadValue
     }
 
     /**
+     * Returns string representation if uploaded file.
+     *
+     * The return value of this method will be used e.g. in rules that are not capable of dealing explicitly
+     * with uploaded files but operate on string values (as indicated by the {@link Formagic_Rule_Abstract::validate()}
+     * method)
+     *
      * @return string
      */
     public function __toString()
@@ -125,6 +133,7 @@ class Formagic_Item_Value_UploadValue
     }
 
     /**
+     * Returns uploaded file's mime type
      *
      * @return string
      */

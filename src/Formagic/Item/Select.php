@@ -27,6 +27,7 @@
 class Formagic_Item_Select extends Formagic_Item_Abstract
 {
     /**
+     * Item type
      * @var string
      */
     protected $type = 'select';

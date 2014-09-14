@@ -25,9 +25,11 @@
  **/
 class Formagic_Item_Checkbox_Test extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Tests that checkbox HTML contains correct type and content
+     */
     public function testGetHtml()
     {
-        $label = 'myLabel';
         $myName = 'test';
         $input = new Formagic_Item_Checkbox($myName, array(
         ));
@@ -44,10 +46,12 @@ class Formagic_Item_Checkbox_Test extends PHPUnit_Framework_TestCase
         $this->assertTag($matcher, $html);
     }
 
+    /**
+     * Tests that given value is transported correctly
+     */
     public function testGetHtmlWithValue()
     {
         // test with simple value
-        $label = 'myLabel';
         $myName = 'test';
         $input = new Formagic_Item_Checkbox($myName, array(
             'value' => 1
@@ -77,10 +81,12 @@ class Formagic_Item_Checkbox_Test extends PHPUnit_Framework_TestCase
         $this->assertTag($matcher, $html);
     }
 
+    /**
+     * Tests read only output
+     */
     public function testReadonly()
     {
         $myName = 'test';
-        $value = 'myValue';
         $input = new Formagic_Item_Checkbox($myName, array(
             'readonly' => true,
         ));
@@ -102,6 +108,9 @@ class Formagic_Item_Checkbox_Test extends PHPUnit_Framework_TestCase
         $this->assertTag($matcher, $html);
     }
 
+    /**
+     * Tests read only output with given value
+     */
     public function testReadonlyWithValue()
     {
         $myName = 'test';

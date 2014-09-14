@@ -39,6 +39,7 @@ class Formagic_Item_XsrfProtection extends Formagic_Item_Hidden
     private $_ruleAdded = false;
 
     /**
+     * Item type
      * @var string
      */
     protected $type = 'hidden_xsrfProtection';

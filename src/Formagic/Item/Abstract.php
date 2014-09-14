@@ -188,7 +188,7 @@ abstract class Formagic_Item_Abstract
     /**
      * Allow subclass initialization.
      *
-     * @param array Array of arguments that are not processed by superclass.
+     * @param array $additionalArgs Array of arguments that are not processed by superclass.
      * @return void
      */
     protected function _init($additionalArgs)

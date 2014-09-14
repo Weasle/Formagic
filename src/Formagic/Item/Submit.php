@@ -27,6 +27,7 @@
 class Formagic_Item_Submit extends Formagic_Item_Abstract
 {
     /**
+     * Item type
      * @var string
      */
     protected $type = 'submit';

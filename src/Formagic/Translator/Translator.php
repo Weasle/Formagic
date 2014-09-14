@@ -60,6 +60,11 @@ class Formagic_Translator implements Formagic_Translator_Interface
 
     /**
      * {@inheritDoc}
+     *
+     * @param string $string The string to be translated
+     * @param array $arguments Array of arguments to be inserted into the string
+     *
+     * @return string The translated string
      */
     public function _($string, array $arguments = array())
     {
@@ -68,6 +73,11 @@ class Formagic_Translator implements Formagic_Translator_Interface
 
     /**
      * {@inheritDoc}
+     *
+     * @param string $string The string to be translated
+     * @param array $arguments Array of arguments to be inserted into the string
+     *
+     * @return string The translated string
      */
     public function translate($string, array $arguments = array())
     {

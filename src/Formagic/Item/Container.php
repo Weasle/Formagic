@@ -36,6 +36,7 @@
 class Formagic_Item_Container extends Formagic_Item_Abstract implements IteratorAggregate, Countable
 {
     /**
+     * Item type
      * @var string
      */
     protected $type = 'container';

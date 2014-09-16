@@ -33,12 +33,6 @@ class Formagic_Item_XsrfProtection extends Formagic_Item_Hidden
     protected $_session;
 
     /**
-     * Flags session rule added
-     * @var boolean
-     */
-    private $_ruleAdded = false;
-
-    /**
      * Item type
      * @var string
      */
@@ -65,14 +59,24 @@ class Formagic_Item_XsrfProtection extends Formagic_Item_Hidden
      */
     public function validate()
     {
-        if (!$this->_ruleAdded) {
-            $this->addRule('SessionValue', array(
+        $ruleName = 'SessionValue';
+        $xsrfRuleAdded = false;
+
+        if ($this->hasRule($ruleName)) {
+            /** @var Formagic_Rule_SessionValue $rule */
+            $rule = $this->getRule($ruleName);
+            $xsrfRuleAdded = ($this->getName() === $rule->getSessionKey())
+                                && ($this->getSession() === $rule->getSession());
+        }
+
+        if (!$xsrfRuleAdded) {
+            $this->addRule($ruleName, array(
                 'session' => $this->getSession(),
                 'sessionKey' => $this->getName(),
                 'message' => 'Token validation failed'
             ));
-            $this->_ruleAdded = true;
         }
+
         return parent::validate();
     }
 
@@ -91,7 +95,9 @@ class Formagic_Item_XsrfProtection extends Formagic_Item_Hidden
      * Sets session object
      *
      * @param Formagic_Session_Interface $session
-     * @return \Formagic_Item_XsrfProtection
+     * @return Formagic_Item_XsrfProtection
+     *
+     * @codeCoverageIgnore
      */
     public function setSession(Formagic_Session_Interface $session)
     {
@@ -102,7 +108,7 @@ class Formagic_Item_XsrfProtection extends Formagic_Item_Hidden
     /**
      * Returns session object
      *
-     * @return \Formagic_Session_Interface Session object
+     * @return Formagic_Session_Interface Session object
      */
     public function getSession()
     {

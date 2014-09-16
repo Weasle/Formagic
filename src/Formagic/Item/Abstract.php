@@ -568,6 +568,23 @@ abstract class Formagic_Item_Abstract
     }
 
     /**
+     * Returns specified filter object if added to the item.
+     *
+     * @param string $filterName
+     * @throws Formagic_Exception If the filter is not added to the item
+     * @return Formagic_Filter_Interface Filter instance
+     */
+    public function getFilter($filterName)
+    {
+        if (!$this->hasFilter($filterName)) {
+            throw new Formagic_Exception('Filter with name ' . $filterName . ' is not added to this item');
+        }
+
+        $fullyQualifiedFilterName = 'Formagic_Filter_' . ucFirst($filterName);
+        return $this->_filters[$fullyQualifiedFilterName];
+    }
+
+    /**
      * Tells if a rule exists for this item.
      *
      * The $ruleName parameter has to be a string with the name of rule that is
@@ -596,6 +613,23 @@ abstract class Formagic_Item_Abstract
     {
         $ruleName = 'Formagic_Rule_' . ucFirst($ruleName);
         return isset($this->_rules[$ruleName]);
+    }
+
+    /**
+     * Returns specified rule object if added to the item.
+     *
+     * @param string $ruleName
+     * @throws Formagic_Exception If the rule is not added to the item
+     * @return Formagic_Rule_Abstract Rule instance
+     */
+    public function getRule($ruleName)
+    {
+        if (!$this->hasRule($ruleName)) {
+            throw new Formagic_Exception('Rule with name ' . $ruleName . ' is not added to this item');
+        }
+
+        $fullyQualifiedRuleName = 'Formagic_Rule_' . ucFirst($ruleName);
+        return $this->_rules[$fullyQualifiedRuleName];
     }
 
     /**

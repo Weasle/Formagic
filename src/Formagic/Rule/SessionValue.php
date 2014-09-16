@@ -71,7 +71,59 @@ class Formagic_Rule_SessionValue extends Formagic_Rule_Abstract
     }
 
     /**
-     * Compairs session value against given value
+     * Sets session key associated with this rule instance.
+     *
+     * @param string $sessionKey
+     * @return Formagic_Rule_SessionValue Fluent interface
+     *
+     * @codeCoverageIgnore
+     */
+    public function setSessionKey($sessionKey)
+    {
+        $this->_sessionKey = $sessionKey;
+        return $this;
+    }
+
+    /**
+     * Returns session key associated with this rule instance.
+     *
+     * @return string
+     *
+     * @codeCoverageIgnore
+     */
+    public function getSessionKey()
+    {
+        return $this->_sessionKey;
+    }
+
+    /**
+     * Returns session object the session value is stored in.
+     *
+     * @param Formagic_Session_Interface $session Session object
+     * @return Formagic_Rule_SessionValue Fluent interface
+     *
+     * @codeCoverageIgnore
+     */
+    public function setSession(Formagic_Session_Interface $session)
+    {
+        $this->_session = $session;
+        return $this;
+    }
+
+    /**
+     * Returns session object the session value is stored in.
+     *
+     * @return string
+     *
+     * @codeCoverageIgnore
+     */
+    public function getSession()
+    {
+        return $this->_session;
+    }
+
+    /**
+     * Compares session value against given value
      *
      * @param string $value Item value to be checked
      * @return boolean True if the item has a value

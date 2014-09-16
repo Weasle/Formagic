@@ -27,7 +27,7 @@ class Formagic_Item_XsrfProtection_Test extends PHPUnit_Framework_TestCase
 {
     /**
      * Session mock
-     * @var Formagic_Session_Interface
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     private $_sessionMock;
 
@@ -71,12 +71,15 @@ class Formagic_Item_XsrfProtection_Test extends PHPUnit_Framework_TestCase
     /**
      * Tests that getSession() always returns session object
      */
-    public function testGetNewSession()
+    public function testGetImplicitlyCreatedSession()
     {
         $_SESSION = array();
-        $input = new Formagic_Item_XsrfProtection('name');
-        $actual = $input->getSession();
+        $subject = new Formagic_Item_XsrfProtection('name');
+        $actual = $subject->getSession();
         $this->assertInstanceOf('Formagic_Session_Interface', $actual);
+
+        $sameSession = $subject->getSession();
+        $this->assertSame($sameSession, $actual);
     }
 
     /**
@@ -113,5 +116,44 @@ class Formagic_Item_XsrfProtection_Test extends PHPUnit_Framework_TestCase
         $input->getHtml();
         $this->assertInternalType('string', $input->getValue());
         $this->assertNotEmpty($input->getValue());
+    }
+
+    public function testAutomaticRuleAssociation()
+    {
+        $itemName = 'test';
+        $ruleName = 'SessionValue';
+        $subject = $this->getMockBuilder('Formagic_Item_XsrfProtection')
+            ->setConstructorArgs(array($itemName, array('session' => $this->_sessionMock)))
+            ->setMethods(array('addRule'))
+            ->getMock();
+
+        $subject
+            ->expects($this->once())
+            ->method('addRule')
+            ->with($ruleName);
+
+        $subject->validate();
+    }
+
+    public function testExplicitRuleAssociation()
+    {
+        $itemName = 'test';
+        $rule = new Formagic_Rule_SessionValue(
+            array(
+                'sessionKey' => $itemName,
+                'session' => $this->_sessionMock
+            )
+        );
+        $subject = new Formagic_Item_XsrfProtection(
+            $itemName,
+            array(
+                'rules' => $rule,
+                'session' => $this->_sessionMock
+            )
+        );
+        $subject->validate();
+
+        $expectedRule = $subject->getRule('SessionValue');
+        $this->assertSame($expectedRule, $rule);
     }
 }

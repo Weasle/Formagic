@@ -49,7 +49,8 @@ class Formagic_Item_Hidden extends Formagic_Item_Abstract
      *
      * @return string HTML output
      */
-    public function  getHtml() {
+    public function getHtml()
+    {
         $attributes = $this->getAttributes();
         $attributes['value'] = htmlspecialchars($this->getValue());
         $attributes['type'] = 'hidden';

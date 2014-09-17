@@ -1,9 +1,9 @@
 Formagic 1.0
 ============
-* Introducing v1.0 (API version 2.0). A lot changed since 0.2, although the 
+* Introducing v1.0 (API version 2.0). A lot changed since 0.2, although the
   basic mechanism of creating and adding form items still the same.
 * UnitTest suite provided
-* Stable release. All releases within major revision 1 will be backward 
+* Stable release. All releases within major revision 1 will be backward
   compatible to API 2.0.
 
 Formagic 1.0.1
@@ -16,7 +16,7 @@ Formagic 1.0.2
 * Formagic construct option "filters" and "rules" now accept arrays (again)
 * Fixed filtering of fields containing integer values
 * Fixed non-mandatory numeric rule validation with no request value
-* Fixed bug for chained filters: Last output is passed to the next filter 
+* Fixed bug for chained filters: Last output is passed to the next filter
   correctly now.
 
 Formagic 1.0.3

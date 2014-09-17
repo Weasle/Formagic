@@ -12,34 +12,66 @@ features are implemented and fully tested.
 
 SYSTEM REQUIREMENTS
 -------------------
-There are not many requirements for using Formagic, any PHP 5 will do (PHP 4 is
+There are not many requirements for using Formagic, PHP 5.1 and above will do (PHP 4 is
 not supported). Formagic will run with any php.ini settings. It is designed to
 run without errors or warnings down to E_STRICT level.
 
 
-GETTING STARTED
----------------
-Just unpack the ZIP-File into a directory of your choice and include
-formagic.php in your code.
+INSTALLATION
+------------
+The easiest way to include Formagic into your project is using Composer. This will
+download the necessary sources and create the autoloader for you, so you can just
+start using Formagic without further ado.
 
+```json
+{
+    "require": {
+        "formagic/formagic": "1.5.2-pl1"
+    }
+}
+```
+
+You can also just unpack the ZIP-File you can download here at GitHub into a 
+directory of your choice and include formagic.php in your code.
+
+
+USAGE
+---------------
 Please visit http://www.formagic-php.net for examples and How-Tos.
 Here is a very short example of Formagic to get you started:
 
+```php
+<?php
 
-    include('Formagic.php');
-    $form = new Formagic();
-    $form
-        ->addItem('input', 'myInput', array('label' => 'My first input'))
-        ->addItem('submit', 'mySubmit', array('label' => 'Send'));
-    
-    if ($form->validate()) {
-        echo "submitted and ok<br />";
-        $form->setReadonly(true);
-    }
-    echo $form->render();
+$form = new Formagic();
+$form
+    ->addItem(
+        'input', 
+        'myInput', 
+        array(
+            'label' => 'My first input',
+            'rules' => 'mandatory'
+            )
+        )
+    ->addItem(
+        'submit', 
+        'mySubmit', 
+        array(
+            'label' => 'Send'
+        )
+    );
 
+// check if form only contains valid values
+if ($form->validate()) {
+    echo "submitted and ok<br />";
+    $form->setReadonly(true);
+}
 
-Of course there is much more to Formagic than this, but perhaps this will get
+// displays the form
+echo $form->render();
+```
+
+Of course there is much more to Formagic than this, but this will get
 you a picture how easy it is to create HTML forms with Formagic.
 
 
@@ -54,9 +86,3 @@ FORMAGIC LINKS
 --------------
 You will find the official Formagic project site here:
 http://www.formagic-php.net
-
-Formagic Sourceforge page:
-http://sourceforge.net/projects/formagic/
-
-Please feel free to report any feature request or bugs here:
-http://sourceforge.net/tracker/?group_id=202176

@@ -12,20 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Abstract superclass for Formagic items
  *
- * @category    Formagic
- * @package     Item
+ * @package     Formagic\Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011 Florian Sonnenburg
+ * @since       2007 First time introduced
  **/
 abstract class Formagic_Item_Abstract
 {
@@ -114,6 +111,12 @@ abstract class Formagic_Item_Abstract
     protected $_isFixed = false;
 
     /**
+     * Keyword to determine what kind of item is represented by the current item class
+     * @var string
+     */
+    protected $type = 'undefined';
+
+    /**
      * Constructor
      *
      * @param string $name Name of item
@@ -168,7 +171,7 @@ abstract class Formagic_Item_Abstract
                         foreach($arg as $filter => $args) {
                             if (is_numeric($filter)) {
                                 $filter = $args;
-                                $args = null;
+                                $args = array();
                             }
                             $this->addFilter($filter, $args);
                         }
@@ -185,11 +188,21 @@ abstract class Formagic_Item_Abstract
     /**
      * Allow subclass initialization.
      *
-     * @param array Array of arguments that are not processed by superclass.
+     * @param array $additionalArgs Array of arguments that are not processed by superclass.
      * @return void
      */
     protected function _init($additionalArgs)
     {
+    }
+
+    /**
+     * Returns item type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -555,6 +568,23 @@ abstract class Formagic_Item_Abstract
     }
 
     /**
+     * Returns specified filter object if added to the item.
+     *
+     * @param string $filterName
+     * @throws Formagic_Exception If the filter is not added to the item
+     * @return Formagic_Filter_Interface Filter instance
+     */
+    public function getFilter($filterName)
+    {
+        if (!$this->hasFilter($filterName)) {
+            throw new Formagic_Exception('Filter with name ' . $filterName . ' is not added to this item');
+        }
+
+        $fullyQualifiedFilterName = 'Formagic_Filter_' . ucFirst($filterName);
+        return $this->_filters[$fullyQualifiedFilterName];
+    }
+
+    /**
      * Tells if a rule exists for this item.
      *
      * The $ruleName parameter has to be a string with the name of rule that is
@@ -583,6 +613,23 @@ abstract class Formagic_Item_Abstract
     {
         $ruleName = 'Formagic_Rule_' . ucFirst($ruleName);
         return isset($this->_rules[$ruleName]);
+    }
+
+    /**
+     * Returns specified rule object if added to the item.
+     *
+     * @param string $ruleName
+     * @throws Formagic_Exception If the rule is not added to the item
+     * @return Formagic_Rule_Abstract Rule instance
+     */
+    public function getRule($ruleName)
+    {
+        if (!$this->hasRule($ruleName)) {
+            throw new Formagic_Exception('Rule with name ' . $ruleName . ' is not added to this item');
+        }
+
+        $fullyQualifiedRuleName = 'Formagic_Rule_' . ucFirst($ruleName);
+        return $this->_rules[$fullyQualifiedRuleName];
     }
 
     /**

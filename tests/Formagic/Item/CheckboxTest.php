@@ -12,26 +12,24 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Test
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Tests Formagic checkbox input items's public interface
  *
- * @category    Formagic
- * @package     Tests
+ * @package     Formagic\Tests
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011
  **/
 class Formagic_Item_Checkbox_Test extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Tests that checkbox HTML contains correct type and content
+     */
     public function testGetHtml()
     {
-        $label = 'myLabel';
         $myName = 'test';
         $input = new Formagic_Item_Checkbox($myName, array(
         ));
@@ -48,10 +46,12 @@ class Formagic_Item_Checkbox_Test extends PHPUnit_Framework_TestCase
         $this->assertTag($matcher, $html);
     }
 
+    /**
+     * Tests that given value is transported correctly
+     */
     public function testGetHtmlWithValue()
     {
         // test with simple value
-        $label = 'myLabel';
         $myName = 'test';
         $input = new Formagic_Item_Checkbox($myName, array(
             'value' => 1
@@ -81,10 +81,12 @@ class Formagic_Item_Checkbox_Test extends PHPUnit_Framework_TestCase
         $this->assertTag($matcher, $html);
     }
 
+    /**
+     * Tests read only output
+     */
     public function testReadonly()
     {
         $myName = 'test';
-        $value = 'myValue';
         $input = new Formagic_Item_Checkbox($myName, array(
             'readonly' => true,
         ));
@@ -106,6 +108,9 @@ class Formagic_Item_Checkbox_Test extends PHPUnit_Framework_TestCase
         $this->assertTag($matcher, $html);
     }
 
+    /**
+     * Tests read only output with given value
+     */
     public function testReadonlyWithValue()
     {
         $myName = 'test';

@@ -12,20 +12,16 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Test
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Tests Formagic image submit input items's public interface
  *
- * @category    Formagic
- * @package     Tests
+ * @package     Formagic\Tests
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011
  **/
 class Formagic_Item_ImageSubmit_Test extends PHPUnit_Framework_TestCase
 {
@@ -140,6 +136,14 @@ class Formagic_Item_ImageSubmit_Test extends PHPUnit_Framework_TestCase
         $input = new Formagic_Item_ImageSubmit('test');
         $input->setClickCoordinates($expected);
         $actual = $input->getClickCoordinates();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testGetType()
+    {
+        $subject = new Formagic_Item_ImageSubmit('test');
+        $expected = 'submit_image';
+        $actual = $subject->getType();
         $this->assertEquals($expected, $actual);
     }
 }

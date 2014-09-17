@@ -12,21 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Rule
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Checks if value is same as an associated session value
  *
- * @category    Formagic
- * @package     Rule
+ * @package     Formagic\Rule
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2012 Florian Sonnenburg
- * @license     http://www.formagic-php.net/license-agreement/   New BSD License
+ * @since       1.2.0 First time introduced
  **/
 class Formagic_Rule_SessionValue extends Formagic_Rule_Abstract
 {
@@ -75,7 +71,59 @@ class Formagic_Rule_SessionValue extends Formagic_Rule_Abstract
     }
 
     /**
-     * Compairs session value against given value
+     * Sets session key associated with this rule instance.
+     *
+     * @param string $sessionKey
+     * @return Formagic_Rule_SessionValue Fluent interface
+     *
+     * @codeCoverageIgnore
+     */
+    public function setSessionKey($sessionKey)
+    {
+        $this->_sessionKey = $sessionKey;
+        return $this;
+    }
+
+    /**
+     * Returns session key associated with this rule instance.
+     *
+     * @return string
+     *
+     * @codeCoverageIgnore
+     */
+    public function getSessionKey()
+    {
+        return $this->_sessionKey;
+    }
+
+    /**
+     * Returns session object the session value is stored in.
+     *
+     * @param Formagic_Session_Interface $session Session object
+     * @return Formagic_Rule_SessionValue Fluent interface
+     *
+     * @codeCoverageIgnore
+     */
+    public function setSession(Formagic_Session_Interface $session)
+    {
+        $this->_session = $session;
+        return $this;
+    }
+
+    /**
+     * Returns session object the session value is stored in.
+     *
+     * @return string
+     *
+     * @codeCoverageIgnore
+     */
+    public function getSession()
+    {
+        return $this->_session;
+    }
+
+    /**
+     * Compares session value against given value
      *
      * @param string $value Item value to be checked
      * @return boolean True if the item has a value

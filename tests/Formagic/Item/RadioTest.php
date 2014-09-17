@@ -12,20 +12,16 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Test
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Tests Formagic radio input items's public interface
  *
- * @category    Formagic
- * @package     Tests
+ * @package     Formagic\Tests
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011
  **/
 class Formagic_Item_Radio_Test extends PHPUnit_Framework_TestCase
 {
@@ -337,6 +333,23 @@ class Formagic_Item_Radio_Test extends PHPUnit_Framework_TestCase
         $html   = $input->getHtml();
         $actual = strpos($html, '#');
         $this->assertNotInternalType('boolean', $actual);
+    }
+
+    /**
+     * Tests that the closing label tag is kept unchanged when using a separator
+     */
+    public function testOutputWithSeparator()
+    {
+        $input = new Formagic_Item_Radio('test');
+        $input->setSeparator('<span></span>');
+
+        $input->setData(array(
+            'val1' => 'Label 1',
+            'val2' => 'Label 2'
+        ));
+
+        $html   = $input->getHtml();
+        $this->assertRegExp('~</label></span>$~', $html);
     }
 
     /**

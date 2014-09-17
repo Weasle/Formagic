@@ -12,20 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Formagic_Item_Text (alias for Formagic_Item_Input)
  *
- * @category    Formagic
- * @package     Item
+ * @package     Formagic\Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2010
+ * @since       1.0.0 First time introduced
  */
 class Formagic_Item_Text extends Formagic_Item_Input
 {

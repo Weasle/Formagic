@@ -12,65 +12,66 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Renderer
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Formagic Renderer Xhtml
  *
- * @category    Formagic
- * @package     Renderer
+ * @package     Formagic\Renderer
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011 Florian Sonnenburg
+ * @since       0.2.0 First time introduced
  **/
 class Formagic_Renderer_Xhtml extends Formagic_Renderer_Html
 {
     /**
-     * Constructor
-     * 
-     * @param Formagic_Translator $translator Translator object
+     * {@inheritDoc}
      */
-    public function  __construct(Formagic_Translator $translator = null)
-    {
-        parent::__construct($translator);
-        
-        /**
-         * Container wrapping template
-         **/
-        $this->_containerWrapperTemplate = array('' =>
-    '<fieldset%ATTRIBUTES%>%LABEL%
+    protected $_containerWrapperTemplate = array('' =>
+    '
+    <fieldset%ATTRIBUTES%>%LABEL%
         <dl>
             %ROWS%
         </dl>
     </fieldset>'
-        );
-        
-        $this->_containerLabelTemplate = array('' => 
-            '
+    );
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $_containerLabelTemplate = array('' =>
+        '
         <legend>%LABEL%</legend>'
-        );
+    );
 
-        /**
-         * Template for rows containing containers
-         **/
-        $this->_containerRowTemplate = array('' =>
-            '
-            <dd>
-        %CONTAINER%
-            </dd>'
-        );
+    /**
+     * {@inheritDoc}
+     */
+    protected $_containerRowTemplate = array('' =>
+        '
+        <dd>
+            %CONTAINER%
+        </dd>'
+    );
 
-        /**
-         * Template for rows containing normal items
-         **/
-        $this->_itemRowTemplate = array('' =>
-            '
-            <dt>%LABEL%</dt>
-            <dd>%ERROR%%INPUT%</dd>'
-        );
+    /**
+     * {@inheritDoc}
+     */
+    protected $_itemRowTemplate = array('' =>
+        '
+        <dt>%LABEL%</dt>
+        <dd>%ERROR%%INPUT%</dd>'
+    );
+
+    /**
+     * Constructor
+     * 
+     * @param Formagic_Translator_Interface $translator Translator object
+     */
+    public function  __construct(Formagic_Translator_Interface $translator = null)
+    {
+        parent::__construct($translator);
     }
 }

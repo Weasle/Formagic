@@ -12,10 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -23,10 +21,9 @@
  * Represents item values after file upload is initiated. Implements a magic toString method, so that any default rules
  * or filter will not fail when applied to this value.
  *
- * @category    Formagic
- * @package     Item\Value
+ * @package     Formagic\Item\Value
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2013 Florian Sonnenburg
+ * @since       2013 First time introduced
  *
  * @codeCoverageIgnore Simple PoPo, not test-worthy
  */
@@ -63,6 +60,8 @@ class Formagic_Item_Value_UploadValue
     private $fileSize;
 
     /**
+     * Construct
+     *
      * @param string $fileName
      * @param string $mimeType
      * @param string $uploadedFilePath
@@ -79,6 +78,12 @@ class Formagic_Item_Value_UploadValue
     }
 
     /**
+     * Returns string representation if uploaded file.
+     *
+     * The return value of this method will be used e.g. in rules that are not capable of dealing explicitly
+     * with uploaded files but operate on string values (as indicated by the {@link Formagic_Rule_Abstract::validate()}
+     * method)
+     *
      * @return string
      */
     public function __toString()
@@ -128,6 +133,7 @@ class Formagic_Item_Value_UploadValue
     }
 
     /**
+     * Returns uploaded file's mime type
      *
      * @return string
      */

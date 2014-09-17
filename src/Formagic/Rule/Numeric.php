@@ -12,22 +12,18 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Rule
- * @author      Marc Schrader
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Checks if value is numeric
  *
- * @category    Formagic
- * @package     Rule
+ * @package     Formagic\Rule
  * @author      Marc Schrader
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011 Florian Sonnenburg
+ * @since       0.2.0 First time introduced
  **/
 class Formagic_Rule_Numeric extends Formagic_Rule_Abstract
 {

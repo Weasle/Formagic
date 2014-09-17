@@ -12,12 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Rule
- * @subpackage  RangeComparsion
  * @author      Florian Sonnenburg
- * @author      Marc Schrader
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -41,12 +37,10 @@
  * Formagic_Rule_StringLength::__construct(array('min' => (int)$min, 'max' => (int)$max));
  * </code>
  *
- * @category    Formagic
- * @package     Rule
- * @subpackage  RangeComparsion
- * @author      Florian Sonnenburg
+ * @package     Formagic\Rule
  * @author      Marc Schrader
- * @copyright   Copyright (c) 2011 Florian Sonnenburg
+ * @author      Florian Sonnenburg
+ * @since       1.0.0 First time introduced
  **/
 class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
 {

@@ -12,10 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Translator
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -27,12 +25,11 @@
  * provided, Formagic_Translator will simply return the same string that was
  * passed in the first place.
  *
- * @category    Formagic
- * @package     Translator
+ * @package     Formagic\Translator
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2013 Florian Sonnenburg
+ * @since       1.0.0 First time introduced
  */
-class Formagic_Translator
+class Formagic_Translator implements Formagic_Translator_Interface
 {
     /**
      * Callback array containing the translation class and method
@@ -62,17 +59,32 @@ class Formagic_Translator
     }
 
     /**
-     * Translates a string or returns it if no translator is set.
+     * {@inheritDoc}
      *
      * @param string $string The string to be translated
+     * @param array $arguments Array of arguments to be inserted into the string
+     *
      * @return string The translated string
      */
-    public function _($string)
+    public function _($string, array $arguments = array())
+    {
+        return $this->translate($string, $arguments);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param string $string The string to be translated
+     * @param array $arguments Array of arguments to be inserted into the string
+     *
+     * @return string The translated string
+     */
+    public function translate($string, array $arguments = array())
     {
         if (!$this->_callback) {
             return $string;
         }
-        $res = call_user_func($this->_callback, $string);
+        $res = call_user_func($this->_callback, $string, $arguments);
         return $res;
     }
 }

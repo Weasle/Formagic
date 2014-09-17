@@ -12,20 +12,16 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Test
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Tests Formagic item public interface
  *
- * @category    Formagic
- * @package     Tests
+ * @package     Formagic\Tests
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011
  **/
 class Formagic_Item_Abstract_Test extends PHPUnit_Framework_TestCase
 {
@@ -105,7 +101,6 @@ class Formagic_Item_Abstract_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals($hasFilter, true);
 
         // add as string on instantiation, multi
-        $filter2 = new Formagic_Filter_Mock_MockFilter2();
         $input  = new Formagic_Item_Mock_MockItem('test', array(
             'filters' => array('Mock_MockFilter', 'Mock_MockFilter2')));
         $hasFilter = $input->hasFilter('Mock_MockFilter');
@@ -726,6 +721,15 @@ class Formagic_Item_Abstract_Test extends PHPUnit_Framework_TestCase
         $item->setFixed(false);
         $item->setValue($expected);
         $actual = $item->getValue();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testGetType()
+    {
+        $expected = 'undefined';
+        /** @var Formagic_Item_Abstract $subject */
+        $subject = $this->getMockForAbstractClass('Formagic_Item_Abstract', array('abstract'));
+        $actual = $subject->getType();
         $this->assertEquals($expected, $actual);
     }
 }

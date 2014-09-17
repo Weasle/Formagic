@@ -12,26 +12,22 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Test
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Tests Formagic upload items's public interface
  *
- * @category    Formagic
- * @package     Tests
+ * @package     Formagic\Tests
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011
  **/
 class Formagic_Item_XsrfProtection_Test extends PHPUnit_Framework_TestCase
 {
     /**
      * Session mock
-     * @var Formagic_Session_Interface
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     private $_sessionMock;
 
@@ -75,12 +71,15 @@ class Formagic_Item_XsrfProtection_Test extends PHPUnit_Framework_TestCase
     /**
      * Tests that getSession() always returns session object
      */
-    public function testGetNewSession()
+    public function testGetImplicitlyCreatedSession()
     {
         $_SESSION = array();
-        $input = new Formagic_Item_XsrfProtection('name');
-        $actual = $input->getSession();
+        $subject = new Formagic_Item_XsrfProtection('name');
+        $actual = $subject->getSession();
         $this->assertInstanceOf('Formagic_Session_Interface', $actual);
+
+        $sameSession = $subject->getSession();
+        $this->assertSame($sameSession, $actual);
     }
 
     /**
@@ -117,5 +116,44 @@ class Formagic_Item_XsrfProtection_Test extends PHPUnit_Framework_TestCase
         $input->getHtml();
         $this->assertInternalType('string', $input->getValue());
         $this->assertNotEmpty($input->getValue());
+    }
+
+    public function testAutomaticRuleAssociation()
+    {
+        $itemName = 'test';
+        $ruleName = 'SessionValue';
+        $subject = $this->getMockBuilder('Formagic_Item_XsrfProtection')
+            ->setConstructorArgs(array($itemName, array('session' => $this->_sessionMock)))
+            ->setMethods(array('addRule'))
+            ->getMock();
+
+        $subject
+            ->expects($this->once())
+            ->method('addRule')
+            ->with($ruleName);
+
+        $subject->validate();
+    }
+
+    public function testExplicitRuleAssociation()
+    {
+        $itemName = 'test';
+        $rule = new Formagic_Rule_SessionValue(
+            array(
+                'sessionKey' => $itemName,
+                'session' => $this->_sessionMock
+            )
+        );
+        $subject = new Formagic_Item_XsrfProtection(
+            $itemName,
+            array(
+                'rules' => $rule,
+                'session' => $this->_sessionMock
+            )
+        );
+        $subject->validate();
+
+        $expectedRule = $subject->getRule('SessionValue');
+        $this->assertSame($expectedRule, $rule);
     }
 }

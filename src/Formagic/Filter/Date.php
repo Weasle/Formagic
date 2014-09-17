@@ -12,10 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Filter
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -28,10 +26,9 @@
  *    timestamp
  * If $value cannot be converted into Unix timestamp, 'n/a' is returned instead.
  *
- * @category    Formagic
- * @package     Filter
+ * @package     Formagic\Filter
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2009 Florian Sonnenburg
+ * @since       2009 First time introduced
  **/
 class Formagic_Filter_Date implements Formagic_Filter_Interface
 {

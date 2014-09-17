@@ -12,10 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2013 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -31,13 +29,18 @@
  * Changes on the flag _isPostItem will only be applied to the container item
  * itself (and defaults to false as there is no use posting a container item).
  *
- * @category    Formagic
- * @package     Item
+ * @package     Formagic\Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2011 Florian Sonnenburg
+ * @since       0.2.0 First time introduced
  */
 class Formagic_Item_Container extends Formagic_Item_Abstract implements IteratorAggregate, Countable
 {
+    /**
+     * Item type
+     * @var string
+     */
+    protected $type = 'container';
+
     /**
      * Pointer to items array section of formagic object
      * @var Formagic_Item_Abstract[]
@@ -337,8 +340,9 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
                 continue;
             }
 
-            $value = $item->getValue();
             if ($item instanceOf Formagic_Item_Container) {
+                /** @var array $value */
+                $value = $item->getValue();
                 $res = $res + $value;
             } else {
                 $res[$item->getName()] = $item->getValue();
@@ -350,9 +354,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
     /**
      * Validates contained items.
      *
-     * Iterates through all contained items. If any rule is violated, sub-item
-     * will return violated Formagic_Rule item and the container will pass it
-     * on.
+     * Iterates through all contained items. Disabled items are ignored for validation.
      *
      * If all items pass violation, validate() calls onValidate-handler and
      * returns its result.
@@ -363,6 +365,9 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
     {
         $valid = true;
         foreach ($this->_items as $item) {
+            if ($item->isDisabled()) {
+                continue;
+            }
             if (!$item->validate()) {
                 $valid = false;
             }

@@ -12,24 +12,26 @@
  * obtain it through the world-wide-web, please send an email
  * to license@formagic-php.net so we can send you a copy immediately.
  *
- * @category    Formagic
- * @package     Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2009 Florian Sonnenburg
+ * @copyright   2007-2014 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
 /**
  * Formagic_Item_Upload
  *
- * @category    Formagic
- * @package     Item
+ * @package     Formagic\Item
  * @author      Florian Sonnenburg
- * @copyright   Copyright (c) 2007-2009 Florian Sonnenburg
- * @version     $Id: Upload.php 173 2012-05-16 13:19:22Z meweasle $
+ * @since       1.0.0 First time introduced
  */
 class Formagic_Item_Upload extends Formagic_Item_Abstract
 {
+    /**
+     * Item type
+     * @var string
+     */
+    protected $type = 'upload';
+
     /**
      * HTML string representation of upload input field
      *

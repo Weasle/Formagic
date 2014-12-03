@@ -39,7 +39,7 @@ class Formagic_Filter_Callback implements Formagic_Filter_Interface
      * Array of arguments for the callback
      * @var Array
      */
-    private $_arguments = array();
+    private $_arguments;
 
     /**
      * Constructor
@@ -47,34 +47,33 @@ class Formagic_Filter_Callback implements Formagic_Filter_Interface
      * @param mixed $callback A valid PHP callback
      * @param array $arguments Array of arguments for the callback
      */
-    public function __construct($callback, array $arguments = null)
+    public function __construct($callback, array $arguments = array())
     {
         $this->_callback = $callback;
-        if ($arguments) {
-            $this->_arguments = $arguments;
-        }
+        $this->_arguments = $arguments;
     }
 
     /**
      * Filters the value using the PHP callback.
-     * 
+     *
      * @param mixed $value The value to be filtered
      * @return string The filtered value
      */
     public function filter($value)
     {
-        // add value to arguments if none passed on instantiation
-        if (!count($this->_arguments)) {
-            $this->_arguments = array($value);
-        // replace placeholder %VALUE% with actual value if arguments are passed
+        if (empty($this->_arguments)) {
+            // add value to arguments if none passed on instantiation
+            $arguments = array($value);
         } else {
-            foreach ($this->_arguments as $key => $arg) {
+            // replace placeholder %VALUE% with actual value if arguments are passed
+            $arguments = $this->_arguments;
+            foreach ($arguments as $key => $arg) {
                 if ($arg == '%VALUE%') {
-                    $this->_arguments[$key] = $value;
+                    $arguments[$key] = $value;
                 }
             }
         }
-        $res = call_user_func_array($this->_callback, $this->_arguments);
+        $res = call_user_func_array($this->_callback, $arguments);
         return $res;
     }
 }

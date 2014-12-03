@@ -47,6 +47,11 @@ Formagic 1.5.3
 * Bugfix issue "Formagic needs an accesor for its name." #14
 * Added Formagic_Translator_Interface
 
-Formagic 1.5.3
-==============
+Formagic 1.5.3-pl1
+==================
 * Bugfix issue #24
+
+Formagic 1.5.4
+==============
+* New feature #13
+* Bugfix #23

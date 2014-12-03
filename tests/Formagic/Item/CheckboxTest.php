@@ -69,16 +69,6 @@ class Formagic_Item_Checkbox_Test extends PHPUnit_Framework_TestCase
             )
         );
         $this->assertTag($matcher, $html);
-
-        $matcher = array(
-            'tag' => 'input',
-            'attributes' => array(
-                'type'      => 'hidden',
-                'name'      => $myName,
-                'value'     => '0'
-            )
-        );
-        $this->assertTag($matcher, $html);
     }
 
     /**

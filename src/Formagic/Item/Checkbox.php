@@ -58,9 +58,7 @@ class Formagic_Item_Checkbox extends Formagic_Item_Abstract
             }
             $attrStr = $this->_buildAttributeStr($attributes);
 
-            $str = '<input type="hidden" name="' . $this->getAttribute('name')
-                . '" value="0" />';
-            $str .= '<input type="checkbox"' . $attrStr . ' />';
+            $str = '<input type="checkbox"' . $attrStr . ' />';
         }
         return $str;
     }

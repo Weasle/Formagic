@@ -146,7 +146,8 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
      * NULL then.
      *
      * @param string $name Item identifier string.
-     * @param boolean $throwException Returns NULL if set to FALSE.
+     * @param boolean $throwException Returns NULL if set to FALSE. Please note that this parameter is deprecated
+     *              since version 1.5.4. Please use {@link #hasItem hasItem()} to test if an item exists.
      *
      * @throws Formagic_Exception If item not found
      *
@@ -154,26 +155,51 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
      */
     public function getItem($name, $throwException = true)
     {
-        $res = false;
+        if (!$this->hasItem($name)) {
+            if (!$throwException) {
+                return null;
+            }
+            throw new Formagic_Exception("Item '$name' does not exist");
+        }
+
         if (isset($this->_items[$name])) {
             $res = $this->_items[$name];
         } else {
+            $res = null;
             foreach ($this->_items as $item) {
-                if ($item instanceOf Formagic_Item_Container) {
-                    $res = $item->getItem($name, false);
-                    if ($res) {
-                        break;
-                    }
+                if ($item instanceOf Formagic_Item_Container && $item->hasItem($name)) {
+                    $res = $item->getItem($name);
+                    break;
                 }
             }
         }
-        if (!$res) {
-            if ($throwException) {
-                throw new Formagic_Exception("Item '$name' does not exist");
-            } else {
-                $res = null;
+
+        return $res;
+    }
+
+    /**
+     * Checks if a specified item exists.
+     *
+     * Performs a deep check, on this container instance an all it's children.
+     *
+     * @param string $name Name of the item to be searched for.
+     *
+     * @return boolean Returns true if item exists
+     */
+    public function hasItem($name)
+    {
+        if (isset($this->_items[$name])) {
+            $res = true;
+        } else {
+            $res = false;
+            foreach ($this->_items as $item) {
+                if ($item instanceOf Formagic_Item_Container && $item->hasItem($name)) {
+                    $res = true;
+                    break;
+                }
             }
         }
+
         return $res;
     }
 
@@ -188,6 +214,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
      *
      * @param array $value Set of new values for contained items.
      *
+     * @throws Formagic_Exception if value is not an array
      * @return Formagic_Item_Container This object.
      */
     public function setValue($value)
@@ -216,6 +243,11 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
                     $item->setValue($item->getLabel());
                 }
 
+            // special treatment for image type checkbox
+            } elseif($item instanceOf Formagic_Item_Checkbox) {
+                if (!array_key_exists($item->getName(), $value)) {
+                    $item->setValue(null);
+                }
             // everything else
             } else {
                 if (array_key_exists($item->getName(), $value)) {
@@ -224,7 +256,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
                 // do not clear value if item has one set already
                 } else {
                     $itemValue = $item->getValue();
-                    if(empty($itemValue)) {
+                    if (empty($itemValue)) {
                         $item->setValue(null);
                     }
                 }

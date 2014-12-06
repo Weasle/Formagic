@@ -449,6 +449,30 @@ class Formagic_Item_Container_Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @throws Formagic_Exception
+     */
+    public function testValidateDisabledItem()
+    {
+        $container = new Formagic_Item_Container('testItem');
+
+        $item = $this->getMockForAbstractClass('Formagic_Item_Abstract', array('testItem'));
+        $item->setDisabled(true);
+        $item
+            ->expects($this->never())
+            ->method('validate');
+
+        $rule = $this->getMockForAbstractClass('Formagic_Rule_Abstract', array(), '', false);
+        $rule
+            ->expects($this->never())
+            ->method('validate');
+
+        $container
+            ->addItem($item)
+            ->addRule($rule)
+            ->validate();
+    }
+
+    /**
      * Returns pre-defined items
      *
      * @return array of Formagic_Item_MockItem

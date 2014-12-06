@@ -63,6 +63,31 @@ class Formagic_Item_Abstract_Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that getFilter() returns previously added filter
+     */
+    public function testGetFilter()
+    {
+        // add as instance
+        $filter = new Formagic_Filter_Mock_MockFilter();
+        $input  = new Formagic_Item_Mock_MockItem('test', array('filters' => $filter));
+
+        $actual = $input->getFilter('Mock_MockFilter');
+        $this->assertSame($filter, $actual);
+    }
+
+    /**
+     * Tests that getFilter() throws exception if filter is not found
+     *
+     * @expectedException Formagic_Exception
+     */
+    public function testGetFilterException()
+    {
+        // add as instance
+        $input  = new Formagic_Item_Mock_MockItem('test');
+        $input->getFilter('FilterNotExists');
+    }
+
+    /**
      * Tests that filter can be added.
      */
     public function testAddFilter()
@@ -488,6 +513,29 @@ class Formagic_Item_Abstract_Test extends PHPUnit_Framework_TestCase
         $hasRule2 = $item->hasRule($ruleName2);
         $this->assertTrue($hasRule);
         $this->assertTrue($hasRule2);
+    }
+
+    /**
+     * Tests that getRule() returns previously added rule
+     */
+    public function testGetRule()
+    {
+        $rule = new Formagic_Rule_Mock_MockRule();
+        $input  = new Formagic_Item_Mock_MockItem('test', array('rules' => $rule));
+
+        $actual = $input->getRule('Mock_MockRule');
+        $this->assertSame($rule, $actual);
+    }
+
+    /**
+     * Tests that getRule() throws exception if rule is not found
+     *
+     * @expectedException Formagic_Exception
+     */
+    public function testGetRuleException()
+    {
+        $input  = new Formagic_Item_Mock_MockItem('test');
+        $input->getRule('RuleNotExists');
     }
 
     /**

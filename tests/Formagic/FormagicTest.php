@@ -64,7 +64,45 @@ class Formagic_Test extends PHPUnit_Framework_TestCase
         $actual = $formagic->getInfo();
         $this->assertInternalType('string', $actual);
     }
+
+    /**
+     * Tests getName()
+     */
+    public function testGetNameForExplicitlySetName()
+    {
+        $name = 'testName';
+        $formagic = new Formagic();
+        $formagic->setName($name);
+        $actual = $formagic->getName();
+
+        $this->assertEquals($name, $actual);
+    }
     
+    /**
+     * Tests getName()
+     */
+    public function testGetNameForSetNameByOption()
+    {
+        $name = 'testName';
+        $formagic = new Formagic(array('name' => $name));
+        $actual = $formagic->getName();
+
+        $this->assertEquals($name, $actual);
+    }
+
+    /**
+     * Tests getName()
+     */
+    public function testGetNameForOverwrittenName()
+    {
+        $name = 'testName';
+        $formagic = new Formagic(array('name' => 'firstName'));
+        $formagic->setName($name);
+        $actual = $formagic->getName();
+
+        $this->assertEquals($name, $actual);
+    }
+
     /**
      * Tests that a rule can be set by option
      */

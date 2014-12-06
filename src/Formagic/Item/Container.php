@@ -275,12 +275,13 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
      * @throws Formagic_Exception if $rule argument is invalid
      * @return Formagic_Item_Container This object.
      */
-    public function addRule($rule, array $args=array())
+    public function addRule($rule, array $args = array())
     {
         parent::addRule($rule, $args);
         foreach ($this->_items as $item) {
             $item->addRule($rule, $args);
         }
+        return $this;
     }
 
     /**
@@ -299,6 +300,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
         foreach ($this->_items as $item) {
             $item->addFilter($filter, $args);
         }
+        return $this;
     }
 
     /**

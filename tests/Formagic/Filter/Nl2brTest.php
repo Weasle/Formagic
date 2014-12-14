@@ -29,27 +29,20 @@ class Test_Formagic_Filter_Nl2br extends PHPUnit_Framework_TestCase
      * Filter instance
      * @var Formagic_Filter_Nl2br
      */
-    private $_filter;
+    private $filter;
 
     /**
-     * HTML string matcher definition
+     * HTML string regexp definition
      * @var array
      */
-    private $_matcher;
+    private $match = '~line 1<br />~';
 
     /**
      * Test case setup.
-     * 
-     * All tests assume that one <br /> is to be inserted (actually, it does
-     * not matter if the BR tag is HTML or XHTML syntax
      */
     public function setUp()
     {
-        $this->_filter = new Formagic_Filter_Nl2br();
-        $this->_matcher = array('tag' => 'div', 'children' => array(
-            'count' => 1,
-            'only' => array('tag' => 'br')
-        ));
+        $this->filter = new Formagic_Filter_Nl2br();
     }
 
     /**
@@ -57,7 +50,7 @@ class Test_Formagic_Filter_Nl2br extends PHPUnit_Framework_TestCase
      */
     public function testInterface()
     {
-        $this->assertInstanceOf('Formagic_Filter_Interface', $this->_filter);
+        $this->assertInstanceOf('Formagic_Filter_Interface', $this->filter);
     }
 
     /**
@@ -67,8 +60,8 @@ class Test_Formagic_Filter_Nl2br extends PHPUnit_Framework_TestCase
     {
         $value = "<div>line 1\n\rline 2</div>";
 
-        $filtered = $this->_filter->filter($value);
-        $this->assertTag($this->_matcher, $filtered);
+        $filtered = $this->filter->filter($value);
+        $this->assertRegExp($this->match, $filtered);
     }
 
     /**
@@ -78,8 +71,8 @@ class Test_Formagic_Filter_Nl2br extends PHPUnit_Framework_TestCase
     {
         $value = "<div>line 1\nline 2</div>";
 
-        $filtered = $this->_filter->filter($value);
-        $this->assertTag($this->_matcher, $filtered);
+        $filtered = $this->filter->filter($value);
+        $this->assertRegExp($this->match, $filtered);
     }
 
     /**
@@ -89,7 +82,7 @@ class Test_Formagic_Filter_Nl2br extends PHPUnit_Framework_TestCase
     {
         $value = "<div>line 1\rline 2</div>";
 
-        $filtered = $this->_filter->filter($value);
-        $this->assertTag($this->_matcher, $filtered);
+        $filtered = $this->filter->filter($value);
+        $this->assertRegExp($this->match, $filtered);
     }
 }

@@ -45,6 +45,23 @@
 class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
 {
     /**
+     * @var boolean
+     */
+    private $multiByteSupportEnabled = false;
+
+    /**
+     * @param array $arguments
+     * @throws Formagic_Exception
+     */
+    protected function _init(array $arguments)
+    {
+        if (!empty($arguments['multiByteSupportEnabled'])) {
+            $this->multiByteSupportEnabled = $arguments['multiByteSupportEnabled'];
+        }
+        parent::_init($arguments);
+    }
+
+    /**
      * Default error messages
      * @var array
      **/
@@ -56,13 +73,25 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
 
     /**
      * Returns range check value.
-     * 
+     *
      * @param string $value Item value
-     * @return integer Range check value
+     * @throws Formagic_Exception if multiByteSupportEnabled and no multibyte extension is not installed
+     * @return int Range check value
      */
     protected function _getRange($value)
     {
-        $length = strlen($value);
+        if ($this->multiByteSupportEnabled) {
+            if (function_exists('mb_strlen')) {
+                $length = mb_strlen($value);
+            } elseif(function_exists('iconv_strlen')) {
+                $length = iconv_strlen($value);
+            } else {
+                throw new Formagic_Exception('Neither "mbstring" nor "iconv" extension is installed');
+            }
+        } else {
+            $length = strlen($value);
+        }
+
         return $length;
     }
 }

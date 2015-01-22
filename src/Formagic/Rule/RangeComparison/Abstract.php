@@ -60,7 +60,7 @@ abstract class Formagic_Rule_RangeComparison_Abstract extends Formagic_Rule_Abst
      * Will throw an exception, if neither "min" nor "max" option provided.
      *
      * @param array $arguments Array of arguments passed to __construct()
-     * @return void
+     * @throws Formagic_Exception
      */
     protected function _init(array $arguments)
     {
@@ -83,6 +83,7 @@ abstract class Formagic_Rule_RangeComparison_Abstract extends Formagic_Rule_Abst
      *
      * @param string $message New message string
      * @throws Formagic_Exception
+     * @return void
      */
     public function setMessage($message) {
         throw new Formagic_Exception('Single message not supported. Please use'
@@ -93,6 +94,7 @@ abstract class Formagic_Rule_RangeComparison_Abstract extends Formagic_Rule_Abst
      * Sets messages array
      *
      * @param array $messages Array of messages
+     * @throws Formagic_Exception
      * @return Formagic_Rule_RangeComparison_Abstract
      */
     public function setMessages(array $messages)

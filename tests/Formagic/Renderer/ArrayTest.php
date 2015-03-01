@@ -237,4 +237,15 @@ class Formagic_ArrayTest extends PHPUnit_Framework_TestCase
         $rendererResult = $this->_renderer->render($form);
         $this->assertEquals($rendererResult['items']['mockItem']['value'], $expectedItemValue);
     }
+
+    public function testRenderRadioInputs()
+    {
+        $this->markTestIncomplete();
+        $containerMock = $this->getMockBuilder('Formagic_Item_Container');
+        $form = $this->getMockBuilder('Formagic')->disableOriginalConstructor()->getMock();
+        $form->expects($this->once())
+            ->method('getItemHolder')
+            ->willReturn($containerMock);
+        $renderer = new Formagic_Renderer_Array();
+    }
 }

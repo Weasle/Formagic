@@ -115,4 +115,14 @@ class Formagic_Rule_StringLength_Test extends PHPUnit_Framework_TestCase
         $validationResult = $rule->validate(null);
         $this->assertTrue($validationResult);
     }
+
+    /**
+     * Tests multibyte length checks
+     */
+    public function testMultiByteLength()
+    {
+        $rule = new Formagic_Rule_StringLength(array('min' => 0));
+        $validationResult = $rule->validate(null);
+
+    }
 }

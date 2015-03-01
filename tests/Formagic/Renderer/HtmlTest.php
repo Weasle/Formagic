@@ -63,7 +63,7 @@ class Formagic_HtmlTest extends PHPUnit_Framework_TestCase
     /**
      * Integration test
      */
-    public function testErrorneousForm()
+    public function testErroneousForm()
     {
         $errorMessage = 'testmessage';
         $errorClass = 'errorclass';
@@ -88,15 +88,9 @@ class Formagic_HtmlTest extends PHPUnit_Framework_TestCase
         $this->_renderer->setErrorClass($errorClass);
         
         $actual = $this->_renderer->render($form);
-        $matcher = array(
-            'tag' => 'ul',
-            'attributes' => array('class' => $errorClass),
-            'child' => array(
-                'tag'     => 'li',
-                'content' => $errorMessage
-            )
-        );
-        $this->assertTag($matcher, $actual);
+
+        $regExp = '~<ul.*?class="' . $errorClass . '".*>.*<li>' . $errorMessage . '</li>~s';
+        $this->assertRegExp($regExp, $actual);
     }
     
     public function testGetSetDefaultContainerRowTemplate()
@@ -167,11 +161,10 @@ class Formagic_HtmlTest extends PHPUnit_Framework_TestCase
         ));
         
         $html = $formagic->render();
-        $matcher = array(
-            'tag'        => 'form',
-            'attributes' => array('name' => $name, 'id' => $name)
-        );
-        $this->assertTag($matcher, $html);
+        $regExpName = '~<form.*name="' . $name . '".*>.*</form>~s';
+        $regExpId = '~<form.*id="' . $name . '".*>.*</form>~s';
+        $this->assertRegExp($regExpName, $html);
+        $this->assertRegExp($regExpId, $html);
     }
     
     public function testDisabledItem()
@@ -179,14 +172,17 @@ class Formagic_HtmlTest extends PHPUnit_Framework_TestCase
         $formagic = new Formagic(array(
             'renderer' => $this->_renderer
         ));
-        $formagic->addItem('input', 'test', array('disable' => true));
+        $item = new Formagic_Item_Input('test');
+        $formagic->addItem($item);
         
         $actual = $formagic->render();
-        $matcher = array(
-            'tag'        => 'input',
-            'attributes' => array('type' => 'text', 'id' => 'test')
-        );
-        $this->assertNotTag($matcher, $actual);
+        $regExp = '~<input.*id="test".*>~s';
+        $this->assertRegExp($regExp, $actual);
+
+        $item->setDisabled(true);
+        $actual = $formagic->render();
+        $regExp = '~<input.*id="test".*>~s';
+        $this->assertNotRegExp($regExp, $actual);
     }
     
     public function testSubContainer()
@@ -194,26 +190,16 @@ class Formagic_HtmlTest extends PHPUnit_Framework_TestCase
         $formagic = new Formagic(array(
             'renderer' => $this->_renderer
         ));
-        $container = new Formagic_Item_Container('sub');
-        $container->addItem('input', 'test');
+        $testId = 'sub';
+        $itemName = 'testItem';
+        $container = new Formagic_Item_Container($testId);
+        $container->addItem('input', $itemName);
         $formagic->addItem($container);
         
         $actual = $formagic->render();
-        $matcher = array(
-            'tag'        => 'table',
-            'attributes' => array('id' => 'sub'),
-            'child' => array(
-                'tag' => 'tr',
-                'child' => array(
-                    'tag' => 'td',
-                    'child' => array(
-                        'tag' => 'input',
-                        'attributes' => array('id' => 'test', 'name' => 'test')
-                    )
-                )
-            )
-        );
-        $this->assertTag($matcher, $actual);
+
+        $regExp = '~<table.*?id="' . $testId . '.*?>\s*<tr>\s*<td>.*?<input.*id="' . $itemName . '".*?>~s';
+        $this->assertRegExp($regExp, $actual);
     }
     
     public function testHiddenInput()

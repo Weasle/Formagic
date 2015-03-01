@@ -50,6 +50,26 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
     private $multiByteSupportEnabled = false;
 
     /**
+     * @var string
+     */
+    private $charsetEncoding;
+
+    /**
+     * @var string
+     */
+    private $forceMultiByteEngine;
+
+    /**
+     * @const string
+     */
+    const MULTIBYTE_ENGINE_MBSTRING = 'mb_strlen';
+
+    /**
+     * @const string
+     */
+    const MULTIBYTE_ENGINE_ICONV = 'iconv_strlen';
+
+    /**
      * @param array $arguments
      * @throws Formagic_Exception
      */
@@ -57,6 +77,12 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
     {
         if (!empty($arguments['multiByteSupportEnabled'])) {
             $this->multiByteSupportEnabled = $arguments['multiByteSupportEnabled'];
+        }
+        if (!empty($arguments['charsetEncoding'])) {
+            $this->charsetEncoding = $arguments['charsetEncoding'];
+        }
+        if (!empty($arguments['forceMultiByteEngine'])) {
+            $this->forceMultiByteEngine = $arguments['forceMultiByteEngine'];
         }
         parent::_init($arguments);
     }
@@ -81,10 +107,10 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
     protected function _getRange($value)
     {
         if ($this->multiByteSupportEnabled) {
-            if (function_exists('mb_strlen')) {
-                $length = mb_strlen($value);
-            } elseif(function_exists('iconv_strlen')) {
-                $length = iconv_strlen($value);
+            if ($this->hasMultiByteEngine(self::MULTIBYTE_ENGINE_MBSTRING)) {
+                $length = mb_strlen($value, $this->charsetEncoding);
+            } elseif($this->hasMultiByteEngine(self::MULTIBYTE_ENGINE_ICONV)) {
+                $length = iconv_strlen($value, $this->charsetEncoding);
             } else {
                 throw new Formagic_Exception('Neither "mbstring" nor "iconv" extension is installed');
             }
@@ -93,5 +119,16 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
         }
 
         return $length;
+    }
+
+    private function hasMultiByteEngine($engine)
+    {
+        $engineExists = function_exists($this->forceMultiByteEngine);
+        $engineForced = ($this->forceMultiByteEngine == $engine);
+        if (!$engineExists && $engineForced) {
+            throw new Formagic_Exception('Forced multibyte engine ' . $this->forceMultiByteEngine . ' is not installed');
+        }
+
+        return $engineExists;
     }
 }

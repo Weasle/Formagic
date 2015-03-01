@@ -41,13 +41,7 @@ class Formagic_XhtmlTest extends PHPUnit_Framework_TestCase
         $form = new Formagic();
         
         $actual = $this->_renderer->render($form);
-        $matcher = array(
-            'tag' => 'fieldset',
-            'child' => array(
-                'tag' => 'dl',
-            )
-        );
-        $this->assertTag($matcher, $actual);
+        $this->assertRegExp('~<fieldset.*?\s<dl>~s', $actual);
     }
     
     public function testGetContainerRowTemplate()
@@ -57,77 +51,46 @@ class Formagic_XhtmlTest extends PHPUnit_Framework_TestCase
         $form->addItem($container);
         
         $actual = $this->_renderer->render($form);
-        $matcher = array(
-            'tag'        => 'fieldset',
-            'child' => array(
-                'tag' => 'dl',
-                'child' => array(
-                    'tag' => 'dd',
-                    'child' => array(
-                        'tag' => 'fieldset',
-                        'attributes' => array('id' => 'sub')
-                    )
-                )
-            )
-        );
-        $this->assertTag($matcher, $actual);
+        $this->assertRegExp('~<fieldset.*?\s<dl>\s*<dd>\s*<fieldset~s', $actual);
     }
     
     public function testContainerLabelTemplate()
     {
         $containerLabel = 'testLabel';
-        
+
         $form = new Formagic();
         $container = new Formagic_Item_Container('sub', array(
             'label' => $containerLabel,
         ));
         $form->addItem($container);
-        
+
         $actual = $this->_renderer->render($form);
-        $matcher = array(
-            'tag'        => 'fieldset',
-            'child' => array(
-                'tag' => 'dl',
-                'child' => array(
-                    'tag' => 'dd',
-                    'child' => array(
-                        'tag' => 'fieldset',
-                        'attributes' => array('id' => 'sub'),
-                        'child' => array(
-                            'tag' => 'legend',
-                            'content' => $containerLabel
-                        )
-                    )
-                )
-            )
-        );
-        $this->assertTag($matcher, $actual);
+        $regExp = '~<fieldset.*?\s<dl>\s*<dd>\s*<fieldset.*?id="sub".*?\s*<legend>' . $containerLabel . '</legend>~s';
+        $this->assertRegExp($regExp, $actual);
     }
-    
+
     public function testGetItemRowTemplate()
     {
         $expectedLabel = 'myLabel';
+        $itemName = 'myLabel';
         $item = $this->getMock(
             'Formagic_Item_Abstract',
             array('getLabel'),
-            array('testItem')
+            array($itemName)
         );
         $item->expects($this->once())
-                ->method('getLabel')
-                ->will($this->returnValue($expectedLabel));
+            ->method('getLabel')
+            ->will(
+                $this->returnValue($expectedLabel)
+            );
         
         $form = new Formagic();
         $form->addItem($item);
-        
+
         $actual = $this->_renderer->render($form);
-        $matcher = array(
-            'tag' => 'dt',
-            'child' => array(
-                'tag' => 'label',
-                'content' => $expectedLabel,
-            )
-        );
-        $this->assertTag($matcher, $actual);
+        $regExp = '~<fieldset.*?\s<dl>\s*<dt><label.*for=\"'
+            . $itemName . '\">' . $expectedLabel . '</label>.*<dd>~s';
+        $this->assertRegExp($regExp, $actual);
     }
     
     /**

@@ -358,18 +358,36 @@ class Formagic_Test extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $actual);
     }
-    
+
+    /**
+     * Tests that no values are bound after form construction
+     */
+    public function testBindValuesBehaviour()
+    {
+        $formagic = new Formagic();
+        $actual = $formagic->hasBoundValues();
+        $this->assertFalse($actual);
+
+        $formagic->bindFormValues(array('test' => 'test'));
+        $this->assertTrue($formagic->hasBoundValues());
+    }
+
     /**
      * Test if the same values are returned from Formagic and itemHolder
      */
-    public function testGetRaw()
+    public function testGetRawAndValueBinding()
     {
         $_GET = array('text1' => 'test');
         $formagic = new Formagic(array('method' => 'get'));
+        $this->assertFalse($formagic->hasBoundValues());
+
         $actual = $formagic->getRaw();
         $this->assertEquals($_GET, $actual);
+
+        $hasBoundValues = $formagic->hasBoundValues();
+        $this->assertTrue($hasBoundValues);
     }
-    
+
     /**
      * Test that isSubmitted returns valid results
      */

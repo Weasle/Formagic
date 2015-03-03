@@ -58,7 +58,7 @@ class Formagic
      * Array of submitted values
      * @var array
      */
-    protected $_submitValues = array();
+    protected $_submitValues;
 
     /**
      * Submit methods supported by Formagic
@@ -138,15 +138,6 @@ class Formagic
         // process options
         if ($options) {
             $this->_setOptions($options);
-        }
-
-        switch($this->_method) {
-            case 'get':
-                $this->_submitValues =& $_GET;
-                break;
-            case 'post':
-                $this->_submitValues =& $_POST;
-                break;
         }
 
         $this->_init();
@@ -542,7 +533,7 @@ class Formagic
      * iteration is stopped. Returns true if no rules are violated.
      * The result of validate() is cached.
      *
-     * @todo Think of a better solution for setValues() in line 611
+     * @todo Think of a better solution for setValues()
      * @return boolean Validation result
      */
     public function validate()
@@ -608,7 +599,39 @@ class Formagic
      */
     public function getRaw()
     {
+        if (!$this->hasBoundValues()) {
+            $this->bindFormValues();
+        }
         return $this->_submitValues;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasBoundValues()
+    {
+        return null !== $this->_submitValues;
+    }
+
+    /**
+     * @param array $formValues
+     * @return void
+     */
+    public function bindFormValues(array $formValues = null)
+    {
+        if (null === $formValues) {
+            // bind external values; choose source array using submit method
+            switch($this->_method) {
+                case 'get':
+                    $this->_submitValues = $_GET;
+                    break;
+                case 'post':
+                    $this->_submitValues = $_POST;
+                    break;
+            }
+        } else {
+            $this->_submitValues = $formValues;
+        }
     }
 
     /**
@@ -624,6 +647,11 @@ class Formagic
      */
     public function isSubmitted()
     {
+        // bind form values if not already bound
+        if (!$this->hasBoundValues()) {
+            $this->bindFormValues();
+        }
+
         // Return value of trackSubmission variable if tracking enabled
         if ($this->_trackSubmission) {
             $item = $this->_getTrackSubmissionItem();

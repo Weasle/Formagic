@@ -93,8 +93,6 @@ class Formagic_Rule_StringLength_Test extends PHPUnit_Framework_TestCase
         $this->assertFalse($actual);
     }
     
-
-    
     /**
      * Test invalid maximal boundary validation
      */
@@ -119,10 +117,101 @@ class Formagic_Rule_StringLength_Test extends PHPUnit_Framework_TestCase
     /**
      * Tests multibyte length checks
      */
-    public function testMultiByteLength()
+    public function testMultiByteLengthWithInternalEncoding()
     {
-        $rule = new Formagic_Rule_StringLength(array('min' => 0));
-        $validationResult = $rule->validate(null);
+        $enc = mb_internal_encoding();
+        mb_internal_encoding('UTF-8');
+        $mbString = 'Мэль';
+        $rule = new Formagic_Rule_StringLength(array('min' => 4, 'max' => 4, 'enableMultiByte' => true));
+        $validationResult = $rule->validate($mbString);
+        $this->assertTrue($validationResult);
+        mb_internal_encoding($enc);
+    }
 
+    /**
+     * Tests multibyte length checks
+     */
+    public function testMultiByteLengthWithExplicitEncoding()
+    {
+        $enc = mb_internal_encoding();
+        $mbString = 'Мэль';
+        $rule = new Formagic_Rule_StringLength(array(
+            'min' => 4,
+            'max' => 4,
+            'enableMultiByte' => true,
+            'charsetEncoding' => 'UTF-8'
+        ));
+        $validationResult = $rule->validate($mbString);
+        $this->assertTrue($validationResult);
+        mb_internal_encoding($enc);
+    }
+
+    /**
+     * Tests multibyte length checks
+     */
+    public function testMultiByteWithoutMbSupport()
+    {
+        $mbString = 'Мэль';
+        $rule = new Formagic_Rule_StringLength(array('min' => 4, 'max' => 4));
+        $validationResult = $rule->validate($mbString);
+        $this->assertFalse($validationResult);
+    }
+
+    /**
+     * Tests multibyte length checks
+     */
+    public function testMultiByteWithDifferentRanking()
+    {
+        $enc = iconv_get_encoding('internal_encoding');
+        iconv_set_encoding('internal_encoding', 'UTF-8');
+        $mbString = 'Мэль';
+        $rule = new Formagic_Rule_StringLength(
+            array(
+                'min' => 4,
+                'max' => 4,
+                'enableMultiByte' => true,
+                'multiByteEngineRanking' => array('iconv_strlen')
+            )
+        );
+        $validationResult = $rule->validate($mbString);
+        $this->assertTrue($validationResult);
+        iconv_set_encoding('internal_encoding', $enc);
+    }
+
+    /**
+     * Tests multibyte length checks
+     */
+    public function testMultiByteWithDifferentRankingAndExplicitEncoding()
+    {
+        $mbString = 'Мэль';
+        $rule = new Formagic_Rule_StringLength(
+            array(
+                'min' => 4,
+                'max' => 4,
+                'enableMultiByte' => true,
+                'charsetEncoding' => 'UTF-8',
+                'multiByteEngineRanking' => array('iconv_strlen')
+            )
+        );
+        $validationResult = $rule->validate($mbString);
+        $this->assertTrue($validationResult);
+    }
+
+    /**
+     * Tests multibyte length checks
+     * @expectedException Formagic_Exception
+     */
+    public function testMultiByteExceptionForNonExistingEngine()
+    {
+        $mbString = 'Мэль';
+        $rule = new Formagic_Rule_StringLength(
+            array(
+                'min' => 4,
+                'max' => 4,
+                'enableMultiByte' => true,
+                'multiByteEngineRanking' => array('n_a')
+            )
+        );
+        $rule->validate($mbString);
     }
 }

@@ -47,7 +47,7 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
     /**
      * @var boolean
      */
-    private $multiByteSupportEnabled = false;
+    private $enableMultiByte = false;
 
     /**
      * @var string
@@ -55,9 +55,9 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
     private $charsetEncoding;
 
     /**
-     * @var string
+     * @var array
      */
-    private $forceMultiByteEngine;
+    private $multiByteEnginesRanking;
 
     /**
      * @const string
@@ -70,19 +70,30 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
     const MULTIBYTE_ENGINE_ICONV = 'iconv_strlen';
 
     /**
-     * @param array $arguments
-     * @throws Formagic_Exception
+     * Subclass initialization.
+     *
+     * @param array $arguments Supported arguments:
+     *  - enableMultiByte: Enables multiByte support. Default: disabled
+     *  - charsetEncoding: Encoding for multiByte functions. Default: System default
+     *  - multiByteEngineRanking: Order in which given multiByte functions are tested and executed. Default:
+     *      - mb_strlen
+     *      - iconv_strlen
      */
     protected function _init(array $arguments)
     {
-        if (!empty($arguments['multiByteSupportEnabled'])) {
-            $this->multiByteSupportEnabled = $arguments['multiByteSupportEnabled'];
+        $this->multiByteEnginesRanking = array(
+            self::MULTIBYTE_ENGINE_MBSTRING,
+            self::MULTIBYTE_ENGINE_ICONV
+        );
+
+        if (!empty($arguments['enableMultiByte'])) {
+            $this->setEnableMultiByte($arguments['enableMultiByte']);
         }
         if (!empty($arguments['charsetEncoding'])) {
-            $this->charsetEncoding = $arguments['charsetEncoding'];
+            $this->setCharsetEncoding($arguments['charsetEncoding']);
         }
-        if (!empty($arguments['forceMultiByteEngine'])) {
-            $this->forceMultiByteEngine = $arguments['forceMultiByteEngine'];
+        if (!empty($arguments['multiByteEngineRanking'])) {
+            $this->setMultiByteEngineRanking($arguments['multiByteEngineRanking']);
         }
         parent::_init($arguments);
     }
@@ -101,19 +112,40 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
      * Returns range check value.
      *
      * @param string $value Item value
-     * @throws Formagic_Exception if multiByteSupportEnabled and no multibyte extension is not installed
-     * @return int Range check value
+     * @throws Formagic_Exception if enableMultiByte and no multibyte extension is not installed
+     * @return integer Range check value
      */
     protected function _getRange($value)
     {
-        if ($this->multiByteSupportEnabled) {
-            if ($this->hasMultiByteEngine(self::MULTIBYTE_ENGINE_MBSTRING)) {
-                $length = mb_strlen($value, $this->charsetEncoding);
-            } elseif($this->hasMultiByteEngine(self::MULTIBYTE_ENGINE_ICONV)) {
-                $length = iconv_strlen($value, $this->charsetEncoding);
-            } else {
-                throw new Formagic_Exception('Neither "mbstring" nor "iconv" extension is installed');
+        if ($this->enableMultiByte) {
+            $length = null;
+            foreach ($this->multiByteEnginesRanking as $engine) {
+                // skip engine if not installed
+                if (!function_exists($engine)) {
+                    continue;
+                }
+
+                switch ($engine) {
+                    case self::MULTIBYTE_ENGINE_MBSTRING:
+                        if ($this->charsetEncoding) {
+                            $length = mb_strlen($value, $this->charsetEncoding);
+                        } else {
+                            $length = mb_strlen($value);
+                        }
+                        break 2;
+                    case self::MULTIBYTE_ENGINE_ICONV:
+                        if ($this->charsetEncoding) {
+                            $length = iconv_strlen($value, $this->charsetEncoding);
+                        } else {
+                            $length = iconv_strlen($value);
+                        }
+                        break 2;
+                }
             }
+            if (null === $length) {
+                throw new Formagic_Exception('No multiByte function defined or none installed');
+            }
+
         } else {
             $length = strlen($value);
         }
@@ -121,14 +153,44 @@ class Formagic_Rule_StringLength extends Formagic_Rule_RangeComparison_Abstract
         return $length;
     }
 
-    private function hasMultiByteEngine($engine)
+    /**
+     * Enables or disables multibyte support.
+     *
+     * @param boolean $enableMultiByte New multibyte support status
+     * @return $this Method chaining
+     */
+    public function setEnableMultiByte($enableMultiByte)
     {
-        $engineExists = function_exists($this->forceMultiByteEngine);
-        $engineForced = ($this->forceMultiByteEngine == $engine);
-        if (!$engineExists && $engineForced) {
-            throw new Formagic_Exception('Forced multibyte engine ' . $this->forceMultiByteEngine . ' is not installed');
-        }
+        $this->enableMultiByte = $enableMultiByte;
+        return $this;
+    }
 
-        return $engineExists;
+    /**
+     * Defines which multiByte engine is selected first.
+     *
+     * Two multibyte functions are prepared with the constants Formagic_Rule_StringLength::MULTIBYTE_ENGINE_MBSTRING
+     * and Formagic_Rule_StringLength::MULTIBYTE_ENGINE_ICONV.
+     *
+     * @param array $multiByteEngineRanking
+     * @return $this Method chaining
+     */
+    public function setMultiByteEngineRanking(array $multiByteEngineRanking)
+    {
+        $this->multiByteEnginesRanking = $multiByteEngineRanking;
+        return $this;
+    }
+
+    /**
+     * Sets charset encoding used for multibyte functions.
+     *
+     * If not provided, the
+     *
+     * @param $charsetEncoding
+     * @return $this Method chaining
+     */
+    public function setCharsetEncoding($charsetEncoding)
+    {
+        $this->charsetEncoding = $charsetEncoding;
+        return $this;
     }
 }

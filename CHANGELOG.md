@@ -53,5 +53,7 @@ Formagic 1.5.3-pl1
 
 Formagic 1.5.4
 ==============
-* New feature #13
-* Bugfix #23
+* Implemented #13: Formagic_Item_Container::hasItem()
+* Implemented #32: Multibyte support for StringLentgh Rule
+* Fixed issue #23
+* Fixed issue #26

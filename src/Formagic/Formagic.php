@@ -112,7 +112,7 @@ class Formagic
     /**
      * Formagic version
      **/
-    const VERSION           = '1.5.4';
+    const VERSION           = '1.5.5-alpha';
 
     /**
      * Formagic API version
@@ -614,14 +614,16 @@ class Formagic
     }
 
     /**
-     * @param array $formValues
+     * Binds the form to any provided array, or, if not provided, the PHP superglobal array specified by form method.
+     *
+     * @param array $formValues Custom form value array.
      * @return void
      */
     public function bindFormValues(array $formValues = null)
     {
         if (null === $formValues) {
             // bind external values; choose source array using submit method
-            switch($this->_method) {
+            switch ($this->_method) {
                 case 'get':
                     $this->_submitValues = $_GET;
                     break;

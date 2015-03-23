@@ -114,18 +114,16 @@ class Formagic_Renderer_Array implements Formagic_Renderer_Interface
                 $this->_hasErrors = true;
             }
 
-            if ($item instanceOf Formagic_Item_Radio) {
-                // Radios return array of their data and labels
+            if ($item instanceOf Formagic_Item_MultipleOptionsInterface) {
 
-                /* @var Formagic_Item_Radio $item */
-                $itemRes['html'] = $item->getHtml();
-                $itemReg['inputs'] = $item->getRadioInputs();
-                $itemReg['labels'] = $item->getRadioLabels();
-
-            } else {
-                // HTML input string
-                $itemRes['html'] = $item->getHtml();
+                // Multi-option items return array of their data and labels
+                /* @var Formagic_Item_MultipleOptionsInterface $item */
+                $itemReg['inputs'] = $item->getOptionInputs();
+                $itemReg['labels'] = array_keys($item->getData());
             }
+
+            // HTML input string
+            $itemRes['html'] = $item->getHtml();
 
             // Label
             $itemRes['label'] = $item->getLabel();

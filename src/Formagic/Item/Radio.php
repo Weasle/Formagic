@@ -24,7 +24,7 @@
  * @author      Florian Sonnenburg
  * @since       0.2.0 First time introduced
  */
-class Formagic_Item_Radio extends Formagic_Item_Abstract
+class Formagic_Item_Radio extends Formagic_Item_Abstract implements Formagic_Item_MultipleOptionsInterface
 {
     /**
      * Item type
@@ -147,7 +147,7 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract
      *
      * @param array $data Associative array with its key being value and
      *          its value being the label of radio elements.
-     * @return Formagic_Item_Radio Fluent interface
+     * @return $this Method chaining
      */
     public function setData(array $data)
     {
@@ -156,11 +156,11 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract
     }
 
     /**
-     * Returns data array including optional empty element.
+     * Returns item options array.
      *
      * @return array
      */
-    protected function getData()
+    public function getData()
     {
         $mergedData = $this->_data;
 
@@ -218,8 +218,8 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract
             $attributes = $this->getAttributes();
             $attributes['type'] = 'radio';
 
-            $inputs = $this->getRadioInputs();
-            $labels = $this->getRadioLabels();
+            $inputs = $this->getOptionInputs();
+            $labels = array_values($this->_data);
             foreach ($inputs as $key => $input) {
                 $i = $key + 1;
                 $inputWithLabel[] = $input
@@ -236,11 +236,19 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract
     }
 
     /**
-     * Returns array of radio input strings
-     *
-     * @return array
+     * @deprecated since 1.5.5. Please use Formagic_Item_Radio::getOptionInputs() instead.
      */
     public function getRadioInputs()
+    {
+        return $this->getOptionInputs();
+    }
+
+    /**
+     * Returns array of radio input strings
+     *
+     * @return array Radio inputs.
+     */
+    public function getOptionInputs()
     {
         $data = $this->getData();
         $inputs = array();
@@ -273,9 +281,10 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract
     }
 
     /**
-     * Returns array of radio labels
+     * Returns array of radio labels.
      *
-     * @return array
+     * @deprecated since 1.5.5. Please use keys of data array instead (see {@link getData()}).
+     * @return array Radio labels
      */
     public function getRadioLabels()
     {

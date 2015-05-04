@@ -252,7 +252,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
                     // no value submitted
                     if ($item instanceOf Formagic_Item_Checkbox) {
                         // if checkbox has no value submitted, it is not clicked --> set value to 0
-                        $item->setValue(0);
+                        $item->setValue('');
 
                     } else {
                         // do not clear value if item has one set already

@@ -119,6 +119,11 @@ class Formagic_Rule_StringLength_Test extends PHPUnit_Framework_TestCase
      */
     public function testMultiByteLengthWithInternalEncoding()
     {
+        if (!extension_loaded('mbstring')) {
+            $this->markTestSkipped('mbstring extension not installed');
+            return;
+        }
+
         $enc = mb_internal_encoding();
         mb_internal_encoding('UTF-8');
         $mbString = 'Мэль';
@@ -133,6 +138,11 @@ class Formagic_Rule_StringLength_Test extends PHPUnit_Framework_TestCase
      */
     public function testMultiByteLengthWithExplicitEncoding()
     {
+        if (!extension_loaded('mbstring')) {
+            $this->markTestSkipped('mbstring extension not installed');
+            return;
+        }
+
         $enc = mb_internal_encoding();
         $mbString = 'Мэль';
         $rule = new Formagic_Rule_StringLength(array(
@@ -162,6 +172,11 @@ class Formagic_Rule_StringLength_Test extends PHPUnit_Framework_TestCase
      */
     public function testMultiByteWithDifferentRanking()
     {
+        if (!extension_loaded('iconv')) {
+            $this->markTestSkipped('iconv extension not installed');
+            return;
+        }
+
         $enc = iconv_get_encoding('internal_encoding');
         iconv_set_encoding('internal_encoding', 'UTF-8');
         $mbString = 'Мэль';
@@ -183,6 +198,11 @@ class Formagic_Rule_StringLength_Test extends PHPUnit_Framework_TestCase
      */
     public function testMultiByteWithDifferentRankingAndExplicitEncoding()
     {
+        if (!extension_loaded('iconv') ) {
+            $this->markTestSkipped('iconv extension not installed');
+            return;
+        }
+
         $mbString = 'Мэль';
         $rule = new Formagic_Rule_StringLength(
             array(
@@ -198,7 +218,7 @@ class Formagic_Rule_StringLength_Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests multibyte length checks
+     * Tests that having a non-supported multibyte engine in ranking list fails
      * @expectedException Formagic_Exception
      */
     public function testMultiByteExceptionForNonExistingEngine()

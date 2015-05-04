@@ -226,12 +226,12 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
 
         // set values to all registered items
         foreach ($this->_items as $item) {
-            // delegate to sub-containers
             if ($item instanceOf Formagic_Item_Container) {
+                // delegate to sub-containers
                 $item->setValue($value);
 
-            // special treatment for image type submit
             } elseif($item instanceOf Formagic_Item_ImageSubmit) {
+                // special treatment for image type submit
                 if (array_key_exists($item->getName() . '_x', $value)
                     && array_key_exists($item->getName() . '_y', $value)
                 ) {
@@ -243,21 +243,24 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
                     $item->setValue($item->getLabel());
                 }
 
-            // special treatment for image type checkbox
-            } elseif($item instanceOf Formagic_Item_Checkbox) {
-                if (!array_key_exists($item->getName(), $value)) {
-                    $item->setValue(null);
-                }
-            // everything else
             } else {
+                // everything else
                 if (array_key_exists($item->getName(), $value)) {
                     $item->setValue($value[$item->getName()]);
 
-                // do not clear value if item has one set already
                 } else {
-                    $itemValue = $item->getValue();
-                    if (empty($itemValue)) {
-                        $item->setValue(null);
+                    // no value submitted
+                    if ($item instanceOf Formagic_Item_Checkbox) {
+                        // if checkbox has no value submitted, it is not clicked --> set value to 0
+                        $item->setValue(0);
+
+                    } else {
+                        // do not clear value if item has one set already
+                        $itemValue = $item->getValue();
+                        if (empty($itemValue)) {
+                            $item->setValue(null);
+                        }
+
                     }
                 }
             }

@@ -57,3 +57,7 @@ Formagic 1.5.4
 * Implemented #32: Multibyte support for StringLentgh Rule
 * Fixed issue #23
 * Fixed issue #26
+
+Formagic 1.5.5
+==============
+* Fixed issue #34

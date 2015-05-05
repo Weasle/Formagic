@@ -26,7 +26,7 @@ start using Formagic without further ado.
 ```json
 {
     "require": {
-        "formagic/formagic": "1.5.2-pl1"
+        "formagic/formagic": "1.5.5"
     }
 }
 ```

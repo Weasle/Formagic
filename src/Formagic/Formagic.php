@@ -112,7 +112,7 @@ class Formagic
     /**
      * Formagic version
      **/
-    const VERSION           = '1.5.4';
+    const VERSION           = '1.5.5';
 
     /**
      * Formagic API version

@@ -61,3 +61,8 @@ Formagic 1.5.4
 Formagic 1.5.5
 ==============
 * Fixed issue #34
+
+Formagic 1.5.6
+==============
+* Fixed issue related to #34: Following the fix in version 1.5.5, setting a default value for a checkbox could in some 
+  cases be overwritten 

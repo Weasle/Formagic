@@ -260,7 +260,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
                         // if checkbox has no value submitted, it is not clicked --> set value to 0.
                         // this can only be done if in "submit mode"; if not, a formerly set default mode should not be
                         // overwritten
-                        if ($value->isSubmitValueBag()) {
+                        if (($value instanceof Formagic_Item_Value_ValueBag) && $value->isSubmitValueBag()) {
                             $item->setValue('');
                         }
 

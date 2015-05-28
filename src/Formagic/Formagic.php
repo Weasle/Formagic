@@ -544,7 +544,8 @@ class Formagic
         }
 
         // populate with submit values
-        $this->setValues($this->_submitValues);
+        $valueBag = new Formagic_Item_Value_ValueBag($this->_submitValues, true);
+        $this->setValues($valueBag);
         return $this->_itemHolder->validate();
     }
 
@@ -573,11 +574,14 @@ class Formagic
     /**
      * Sets default values.
      *
-     * @param array $values Form values
+     * @param array|Formagic_Item_Value_ValueBag $values Form values
      * @return Formagic Fluent interface
      */
-    public function setValues(array $values)
+    public function setValues($values)
     {
+        if (!($values instanceof Formagic_Item_Value_ValueBag)) {
+            $values = new Formagic_Item_Value_ValueBag($values);
+        }
         $this->_itemHolder->setValue($values);
         return $this;
     }

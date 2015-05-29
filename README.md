@@ -5,10 +5,6 @@ Thank you for your interest in Formagic.
 The source files within are subject to the new BSD license that is bundled
 with this package in the file LICENSE.
 
-This is a beta release of Formagic. Please check https://github.com/Weasle/Formagic
-for updates of Formagic. There will be a final release as soon as all intended
-features are implemented and fully tested.
-
 
 SYSTEM REQUIREMENTS
 -------------------

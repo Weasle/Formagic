@@ -18,13 +18,13 @@
  */
 
 /**
- * formagicItemSelect
+ * Formagic_Item_Select
  *
  * @package     Formagic\Item
  * @author      Florian Sonnenburg
  * @since       0.2.0 First time introduced
  */
-class Formagic_Item_Select extends Formagic_Item_Abstract
+class Formagic_Item_Select extends Formagic_Item_Abstract implements Formagic_Item_MultipleOptionsInterface
 {
     /**
      * Item type
@@ -83,6 +83,17 @@ class Formagic_Item_Select extends Formagic_Item_Abstract
     }
 
     /**
+     * Returns item options array.
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->_data;
+    }
+
+
+    /**
      * Sets multiple attribute for select field.
      *
      * @param boolean $flag Bool value if the field has to be multiple.
@@ -115,6 +126,72 @@ class Formagic_Item_Select extends Formagic_Item_Abstract
     }
 
     /**
+     * Returns rendered HTML inputs for item's options.
+     *
+     * @return array
+     */
+    public function getOptionInputs()
+    {
+        $currentValue = $this->getValue();
+        $result = $this->getOptionsInputsRecursive($this->_data, $currentValue);
+        return $result;
+    }
+
+    /**
+     * Recursive worker method returning nested options.
+     *
+     * @param array $data Options data array
+     * @param string|array $currentValue Currently set data.
+     *
+     * @return array
+     */
+    private function getOptionsInputsRecursive(array $data, $currentValue)
+    {
+        $translator = Formagic::getTranslator();
+        $result = array();
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $key = $translator->translate($key);
+                $label = htmlspecialchars($key);
+                $result[$label] = $this->getOptionsInputsRecursive($value, $currentValue);
+            } else {
+                $value = $translator->translate($value);
+                $value = htmlspecialchars($value);
+                $key = htmlspecialchars($key);
+                if (is_array($currentValue)) {
+                    $selected = in_array($key, $currentValue) ? ' selected="selected"' : '';
+                } else {
+                    $selected = $key == (string)$currentValue ? ' selected="selected"' : '';
+                }
+                $result[] = "<option value=\"{$key}\"{$selected}>{$value}</option>";
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Build select options string.
+     *
+     * @param array $optionsArray Select options
+     * @param string $currentVal Current value
+     * @return string Options string
+     */
+    protected function _buildOptions(array $optionsArray, $currentVal)
+    {
+        $str = '';
+        foreach ($optionsArray as $key => $value) {
+            if (is_array($value)) {
+                $str .= "<optgroup label=\"" . $key . "\">\n";
+                $str .= $this->_buildOptions($value, $currentVal);
+                $str .= "</optgroup>\n";
+            } else {
+                $str .= "\t$value\n";
+            }
+        }
+        return $str;
+    }
+
+    /**
      * Returns the HTML string for a multiselectbox.
      *
      * @return string The HTML string.
@@ -125,8 +202,8 @@ class Formagic_Item_Select extends Formagic_Item_Abstract
         $attributes = $this->getAttributes();
 
         // Multi HTML readonly
-        if($this->_isReadonly) {
-            $t = Formagic::getTranslator();
+        if ($this->_isReadonly) {
+            $translator = Formagic::getTranslator();
             if (!is_array($currVal)) {
                 $currVal = array($currVal);
             }
@@ -134,7 +211,7 @@ class Formagic_Item_Select extends Formagic_Item_Abstract
             $hiddens = array();
             foreach ($currVal as $val) {
                 $val = htmlspecialchars($val);
-                $labels[]  = $t->_($this->_data[$val]);
+                $labels[]  = $translator->translate($this->_data[$val]);
                 $hiddens[] = '<input type="hidden" name="' . $attributes['name']
                     . '[]" value="' . $val . '" />';
             }
@@ -150,10 +227,11 @@ class Formagic_Item_Select extends Formagic_Item_Abstract
         $attributes['multiple'] = 'multiple';
 
         // hidden field needed because empty multi select does not transfer
-        $str = '<input type="hidden" name="' . $this->getAttribute('name')
-            . '" value="" />'
-            . '<select' . $this->_buildAttributeStr($attributes) . ">\n";
-        $str .= $this->_buildOptions($this->_data, $currVal);
+        $str = '<input type="hidden" name="' . $this->getAttribute('name') . '" value="" />';
+        $str .= '<select' . $this->_buildAttributeStr($attributes) . ">\n";
+
+        $optionsArray = $this->getOptionInputs();
+        $str .= $this->_buildOptions($optionsArray, $currVal);
         $str .= '</select>';
         return $str;
     }
@@ -169,9 +247,9 @@ class Formagic_Item_Select extends Formagic_Item_Abstract
 
         // Single HTML readonly
         if ($this->_isReadonly) {
-            $t = Formagic::getTranslator();
+            $translator = Formagic::getTranslator();
             $str = '<span id="' . $this->getAttribute('id') . '">['
-                . $t->_($this->_data[$currVal]) . ']<input '
+                . $translator->translate($this->_data[$currVal]) . ']<input '
                 . 'type="hidden" name="' . $this->getAttribute('name')
                 . '" value="' . $currVal . '" /></span>';
             return $str;
@@ -179,39 +257,9 @@ class Formagic_Item_Select extends Formagic_Item_Abstract
 
         // Single HTML default
         $str = '<select' . $this->getAttributeStr() .">\n";
-        $str .= $this->_buildOptions($this->_data, $currVal);
+        $optionsArray = $this->getOptionInputs();
+        $str .= $this->_buildOptions($optionsArray, $currVal);
         $str .= '</select>';
-        return $str;
-    }
-
-    /**
-     * Build select options string.
-     *
-     * @param array $data Select options
-     * @param string $currentVal Current value
-     * @return string Options string
-     */
-    protected function _buildOptions(array $data, $currentVal)
-    {
-        $t = Formagic::getTranslator();
-        $str = '';
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                $label = htmlspecialchars($t->_($key));
-                $str .= "<optgroup label=\"" . $label . "\">\n";
-                $str .= $this->_buildOptions($value, $currentVal);
-                $str .= "</optgroup>\n";
-            } else {
-                $key = htmlspecialchars($key);
-                $value = htmlspecialchars($t->_($value));
-                if (is_array($currentVal)) {
-                    $selected = in_array((string)$key, $currentVal) ? ' selected="selected"' : '';
-                } else {
-                    $selected = (string)$key == (string)$currentVal ? ' selected="selected"' : '';
-                }
-                $str .= "\t<option value=\"$key\"$selected>$value</option>\n";
-            }
-        }
         return $str;
     }
 }

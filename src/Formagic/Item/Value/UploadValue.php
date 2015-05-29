@@ -13,7 +13,7 @@
  * to license@formagic-php.net so we can send you a copy immediately.
  *
  * @author      Florian Sonnenburg
- * @copyright   2007-2014 Florian Sonnenburg
+ * @copyright   2007-2015 Florian Sonnenburg
  * @license     http://www.formagic-php.net/license-agreement/   New BSD License
  */
 
@@ -23,7 +23,7 @@
  *
  * @package     Formagic\Item\Value
  * @author      Florian Sonnenburg
- * @since       2013 First time introduced
+ * @since       1.0 First time introduced
  *
  * @codeCoverageIgnore Simple PoPo, not test-worthy
  */

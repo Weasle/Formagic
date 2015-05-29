@@ -5,10 +5,6 @@ Thank you for your interest in Formagic.
 The source files within are subject to the new BSD license that is bundled
 with this package in the file LICENSE.
 
-This is a beta release of Formagic. Please check http://formagic.sourceforge.net
-for updates of Formagic. There will be a final release as soon as all intended
-features are implemented and fully tested.
-
 
 SYSTEM REQUIREMENTS
 -------------------
@@ -26,13 +22,19 @@ start using Formagic without further ado.
 ```json
 {
     "require": {
-        "formagic/formagic": "1.5.5"
+        "formagic/formagic": "1.5.6"
     }
 }
 ```
 
-You can also just unpack the ZIP-File you can download here at GitHub into a 
-directory of your choice and include formagic.php in your code.
+You can also just unpack the ZIP-File you can download at GitHub into a directory of 
+your choice and include the Formagic autoloader in your code:
+
+```php
+<?php
+require_once '/path/to/formagic/src/Formagic/Autoloader/Autoloader.php';
+Formagic_Autoloader::register();
+```
 
 
 USAGE

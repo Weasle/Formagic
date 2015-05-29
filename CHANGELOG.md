@@ -54,10 +54,19 @@ Formagic 1.5.3-pl1
 Formagic 1.5.4
 ==============
 * Implemented #13: Formagic_Item_Container::hasItem()
-* Implemented #32: Multibyte support for StringLentgh Rule
+* Implemented #32: Multibyte support for StringLength Rule
 * Fixed issue #23
 * Fixed issue #26
 
 Formagic 1.5.5
+==============
+* Fixed issue #34
+
+Formagic 1.5.6
+==============
+* Fixed issue related to #34: Following the fix in version 1.5.5, bulk-setting default values for a form could overwrite 
+  a formerly set default value for a checkbox, if not part of the bulk data array
+
+Formagic 1.5.x
 ==============
 * Implemented #33: Improved data for array renderer

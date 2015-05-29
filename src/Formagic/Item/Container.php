@@ -212,7 +212,7 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
      *
      * Implements a fluent interface pattern.
      *
-     * @param array $value Set of new values for contained items.
+     * @param array|Formagic_Item_Value_ValueBag $value Set of new values for contained items.
      *
      * @throws Formagic_Exception if value is not an array
      * @return Formagic_Item_Container This object.
@@ -220,44 +220,57 @@ class Formagic_Item_Container extends Formagic_Item_Abstract implements Iterator
     public function setValue($value)
     {
         // check that $value is array
-        if (!is_array($value)) {
-            throw new Formagic_Exception('Container value has to be an array');
+        if (!is_array($value) && !($value instanceof Formagic_Item_Value_ValueBag)) {
+            throw new Formagic_Exception('Container value has to be an array or Formagic_Item_Value_ValueBag');
+        }
+
+        $valuesArray = $value;
+        if ($value instanceof Formagic_Item_Value_ValueBag) {
+            $valuesArray = $value->getArrayCopy();
         }
 
         // set values to all registered items
         foreach ($this->_items as $item) {
-            // delegate to sub-containers
             if ($item instanceOf Formagic_Item_Container) {
+                // delegate to sub-containers
                 $item->setValue($value);
 
-            // special treatment for image type submit
             } elseif($item instanceOf Formagic_Item_ImageSubmit) {
-                if (array_key_exists($item->getName() . '_x', $value)
-                    && array_key_exists($item->getName() . '_y', $value)
+                // special treatment for image type submit
+                if (array_key_exists($item->getName() . '_x', $valuesArray)
+                    && array_key_exists($item->getName() . '_y', $valuesArray)
                 ) {
                     $clickCoordinates = array(
-                        'x' => (int)$value[$item->getName() . '_x'],
-                        'y' => (int)$value[$item->getName() . '_y']
+                        'x' => (int)$valuesArray[$item->getName() . '_x'],
+                        'y' => (int)$valuesArray[$item->getName() . '_y']
                     );
                     $item->setClickCoordinates($clickCoordinates);
                     $item->setValue($item->getLabel());
                 }
 
-            // special treatment for image type checkbox
-            } elseif($item instanceOf Formagic_Item_Checkbox) {
-                if (!array_key_exists($item->getName(), $value)) {
-                    $item->setValue(null);
-                }
-            // everything else
             } else {
-                if (array_key_exists($item->getName(), $value)) {
-                    $item->setValue($value[$item->getName()]);
+                // everything else
+                if (array_key_exists($item->getName(), $valuesArray)) {
+                    $item->setValue($valuesArray[$item->getName()]);
 
-                // do not clear value if item has one set already
                 } else {
-                    $itemValue = $item->getValue();
-                    if (empty($itemValue)) {
-                        $item->setValue(null);
+                    // no value submitted
+                    if ($item instanceOf Formagic_Item_Checkbox) {
+
+                        // if checkbox has no value submitted, it is not clicked --> set value to 0.
+                        // this can only be done if in "submit mode"; if not, a formerly set default mode should not be
+                        // overwritten
+                        if (($value instanceof Formagic_Item_Value_ValueBag) && $value->isSubmitValueBag()) {
+                            $item->setValue('');
+                        }
+
+                    } else {
+                        // do not clear value if item has one set already
+                        $itemValue = $item->getValue();
+                        if (empty($itemValue)) {
+                            $item->setValue(null);
+                        }
+
                     }
                 }
             }

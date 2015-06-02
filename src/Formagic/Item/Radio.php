@@ -200,10 +200,10 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract implements Formagic_Ite
         $str = '<span id="' . $this->getAttribute('id') . '">';
 
         $inputWithLabel = array();
+        $data = $this->getData();
 
         // HTML blocked
         if ($this->_isReadonly) {
-            $data = $this->getData();
             $str .= '<input type="hidden" name="' . $this->getAttribute('name')
                     . '" value="' . $currVal . '" />';
             foreach ($data as $key => $value) {
@@ -219,7 +219,7 @@ class Formagic_Item_Radio extends Formagic_Item_Abstract implements Formagic_Ite
             $attributes['type'] = 'radio';
 
             $inputs = $this->getOptionInputs();
-            $labels = array_values($this->_data);
+            $labels = array_values($data);
             foreach ($inputs as $key => $input) {
                 $i = $key + 1;
                 $inputWithLabel[] = $input

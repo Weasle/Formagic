@@ -2,3 +2,4 @@
 composer.lock
 vendor
 phpunit.phar
+composer.phar
